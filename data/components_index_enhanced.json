@@ -2,347 +2,71 @@
   {
     "objectID": "button-1",
     "name": "Button",
-    "displayName": "Button",
     "category": "Forms",
-    "description": "Displays a button or a component that looks like a button. Supports multiple variants including default, destructive, outline, secondary, ghost, and link styles.",
+    "description": "Clickable button with variants: default, destructive, outline, secondary, ghost, link. Sizes: default, sm, lg, icon.",
     "tags": ["interactive", "form", "action", "cta"],
     "status": "stable",
-    "version": "1.0.0",
-    "props": [
-      {
-        "name": "variant",
-        "type": "default | destructive | outline | secondary | ghost | link",
-        "required": false,
-        "default": "default",
-        "description": "The visual style variant of the button"
-      },
-      {
-        "name": "size",
-        "type": "default | sm | lg | icon",
-        "required": false,
-        "default": "default",
-        "description": "The size of the button"
-      },
-      {
-        "name": "asChild",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Merge props onto immediate child"
-      },
-      {
-        "name": "disabled",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Whether the button is disabled"
-      }
-    ],
-    "variants": ["default", "destructive", "outline", "secondary", "ghost", "link"],
-    "useCases": ["Call-to-action buttons", "Form submissions", "Navigation actions", "Destructive actions"],
-    "keywords": ["button", "cta", "action", "click", "submit", "primary", "secondary"]
+    "props": "variant, size, asChild, disabled",
+    "variants": "default, destructive, outline, secondary, ghost, link"
   },
   {
     "objectID": "input-1",
     "name": "Input",
-    "displayName": "Input",
     "category": "Forms",
-    "description": "A text input field component with support for different types. Built on top of native HTML input with enhanced styling and accessibility features.",
+    "description": "Text input field. Types: text, email, password, number, tel, url, search.",
     "tags": ["form", "text", "input", "field"],
     "status": "stable",
-    "version": "1.0.0",
-    "props": [
-      {
-        "name": "type",
-        "type": "text | email | password | number | tel | url | search",
-        "required": false,
-        "default": "text",
-        "description": "The type of input"
-      },
-      {
-        "name": "placeholder",
-        "type": "string",
-        "required": false,
-        "description": "Placeholder text"
-      },
-      {
-        "name": "disabled",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Whether the input is disabled"
-      },
-      {
-        "name": "value",
-        "type": "string",
-        "required": false,
-        "description": "The controlled value"
-      }
-    ],
-    "variants": ["default", "error"],
-    "useCases": ["Text entry", "Form fields", "Search bars", "Email collection", "Password entry"],
-    "keywords": ["input", "text", "field", "form", "entry", "textbox"]
+    "props": "type, placeholder, disabled, value",
+    "variants": "default, error"
   },
   {
     "objectID": "card-1",
     "name": "Card",
-    "displayName": "Card",
     "category": "Layout",
-    "description": "Displays a card with header, content, and footer sections. A versatile container component for grouping related content.",
+    "description": "Container with header, content, footer. Sub: CardHeader, CardTitle, CardDescription, CardContent, CardFooter.",
     "tags": ["container", "layout", "content"],
     "status": "stable",
-    "version": "1.0.0",
-    "props": [
-      {
-        "name": "className",
-        "type": "string",
-        "required": false,
-        "description": "Additional CSS classes"
-      }
-    ],
-    "subComponents": [
-      "CardHeader",
-      "CardTitle",
-      "CardDescription",
-      "CardContent",
-      "CardFooter"
-    ],
-    "variants": ["default"],
-    "useCases": ["Content containers", "Product cards", "Profile cards", "Information panels", "Feature highlights"],
-    "keywords": ["card", "container", "panel", "box", "content"]
+    "props": "className",
+    "variants": "default"
   },
   {
     "objectID": "dialog-1",
     "name": "Dialog",
-    "displayName": "Dialog (Modal)",
     "category": "Overlay",
-    "description": "A modal dialog that interrupts the user with important content and expects a response. Built with Radix UI for full accessibility including focus trapping and keyboard navigation.",
-    "tags": ["modal", "overlay", "popup", "dialog"],
+    "description": "Modal with focus trapping, keyboard nav. Sub: DialogTrigger, DialogContent, DialogTitle, DialogFooter.",
+    "tags": ["modal", "overlay", "popup"],
     "status": "stable",
-    "version": "1.0.0",
-    "props": [
-      {
-        "name": "open",
-        "type": "boolean",
-        "required": false,
-        "description": "Controls the open state"
-      },
-      {
-        "name": "onOpenChange",
-        "type": "(open: boolean) => void",
-        "required": false,
-        "description": "Callback when open state changes"
-      }
-    ],
-    "subComponents": [
-      "DialogTrigger",
-      "DialogContent",
-      "DialogHeader",
-      "DialogTitle",
-      "DialogDescription",
-      "DialogFooter",
-      "DialogClose"
-    ],
-    "variants": ["default"],
-    "useCases": ["Confirmation dialogs", "Forms in modal", "Alert messages", "Multi-step processes", "Content preview"],
-    "keywords": ["dialog", "modal", "popup", "overlay", "alert", "confirm"]
+    "props": "open, onOpenChange",
+    "variants": "default"
   },
   {
     "objectID": "select-1",
     "name": "Select",
-    "displayName": "Select",
     "category": "Forms",
-    "description": "Displays a list of options for the user to pick from. Built with Radix UI with full keyboard navigation support.",
-    "tags": ["form", "dropdown", "picker", "select"],
+    "description": "Dropdown picker. Sub: SelectTrigger, SelectValue, SelectContent, SelectItem.",
+    "tags": ["dropdown", "picker", "select"],
     "status": "stable",
-    "version": "1.0.0",
-    "props": [
-      {
-        "name": "value",
-        "type": "string",
-        "required": false,
-        "description": "The controlled value"
-      },
-      {
-        "name": "onValueChange",
-        "type": "(value: string) => void",
-        "required": false,
-        "description": "Callback when value changes"
-      },
-      {
-        "name": "disabled",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Whether the select is disabled"
-      }
-    ],
-    "subComponents": [
-      "SelectTrigger",
-      "SelectValue",
-      "SelectContent",
-      "SelectItem",
-      "SelectGroup",
-      "SelectLabel"
-    ],
-    "variants": ["default"],
-    "useCases": ["Form dropdowns", "Filter selections", "Settings menus", "Country pickers", "Category selections"],
-    "keywords": ["select", "dropdown", "picker", "options", "menu", "combobox"]
-  },
-  {
-    "objectID": "alert-1",
-    "name": "Alert",
-    "displayName": "Alert",
-    "category": "Feedback",
-    "description": "Displays a callout for user attention. Supports default, destructive, and warning variants for different message types.",
-    "tags": ["notification", "message", "feedback", "banner"],
-    "status": "stable",
-    "version": "1.0.0",
-    "props": [
-      {
-        "name": "variant",
-        "type": "default | destructive",
-        "required": false,
-        "default": "default",
-        "description": "The visual style variant"
-      }
-    ],
-    "subComponents": [
-      "AlertTitle",
-      "AlertDescription"
-    ],
-    "variants": ["default", "destructive"],
-    "useCases": ["Success messages", "Error notifications", "Warning banners", "Info callouts", "System announcements"],
-    "keywords": ["alert", "notification", "message", "banner", "callout", "toast"]
+    "props": "value, onValueChange, disabled",
+    "variants": "default"
   },
   {
     "objectID": "checkbox-1",
     "name": "Checkbox",
-    "displayName": "Checkbox",
     "category": "Forms",
-    "description": "A control that allows the user to toggle between checked and not checked. Built with Radix UI for accessibility.",
-    "tags": ["form", "input", "toggle", "boolean"],
+    "description": "Toggle for checked/unchecked/indeterminate states. Built with Radix UI.",
+    "tags": ["form", "toggle", "boolean"],
     "status": "stable",
-    "version": "1.0.0",
-    "props": [
-      {
-        "name": "checked",
-        "type": "boolean | 'indeterminate'",
-        "required": false,
-        "description": "The controlled checked state"
-      },
-      {
-        "name": "onCheckedChange",
-        "type": "(checked: boolean) => void",
-        "required": false,
-        "description": "Callback when checked state changes"
-      },
-      {
-        "name": "disabled",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Whether the checkbox is disabled"
-      }
-    ],
-    "variants": ["default"],
-    "useCases": ["Form checkboxes", "Todo lists", "Multi-select", "Terms acceptance", "Feature toggles"],
-    "keywords": ["checkbox", "check", "toggle", "boolean", "tick", "select"]
+    "props": "checked, onCheckedChange, disabled",
+    "variants": "default"
   },
   {
     "objectID": "badge-1",
     "name": "Badge",
-    "displayName": "Badge",
     "category": "Data Display",
-    "description": "Displays a badge or a component that looks like a badge. Used for status indicators, labels, and counts.",
-    "tags": ["label", "tag", "status", "indicator"],
+    "description": "Small label for status, tags, counts. Variants: default, secondary, destructive, outline.",
+    "tags": ["label", "tag", "status"],
     "status": "stable",
-    "version": "1.0.0",
-    "props": [
-      {
-        "name": "variant",
-        "type": "default | secondary | destructive | outline",
-        "required": false,
-        "default": "default",
-        "description": "The visual style variant"
-      }
-    ],
-    "variants": ["default", "secondary", "destructive", "outline"],
-    "useCases": ["Status indicators", "Category labels", "Notification counts", "Tags", "Version badges"],
-    "keywords": ["badge", "label", "tag", "pill", "chip", "status"]
-  },
-  {
-    "objectID": "toast-1",
-    "name": "Toast",
-    "displayName": "Toast",
-    "category": "Feedback",
-    "description": "A succinct message that is displayed temporarily. Perfect for success messages, notifications, and non-critical information.",
-    "tags": ["notification", "message", "feedback", "snackbar"],
-    "status": "stable",
-    "version": "1.0.0",
-    "props": [
-      {
-        "name": "title",
-        "type": "string",
-        "required": false,
-        "description": "Toast title"
-      },
-      {
-        "name": "description",
-        "type": "string",
-        "required": false,
-        "description": "Toast description"
-      },
-      {
-        "name": "variant",
-        "type": "default | destructive",
-        "required": false,
-        "default": "default",
-        "description": "The visual style variant"
-      },
-      {
-        "name": "duration",
-        "type": "number",
-        "required": false,
-        "default": "5000",
-        "description": "Time in ms before toast dismisses"
-      }
-    ],
-    "variants": ["default", "destructive"],
-    "useCases": ["Success confirmations", "Error messages", "Undo actions", "System notifications", "Loading states"],
-    "keywords": ["toast", "notification", "snackbar", "alert", "message", "popup"]
-  },
-  {
-    "objectID": "accordion-1",
-    "name": "Accordion",
-    "displayName": "Accordion",
-    "category": "Disclosure",
-    "description": "A vertically stacked set of interactive headings that each reveal an associated section of content. Built with Radix UI.",
-    "tags": ["collapse", "expand", "disclosure", "toggle"],
-    "status": "stable",
-    "version": "1.0.0",
-    "props": [
-      {
-        "name": "type",
-        "type": "single | multiple",
-        "required": true,
-        "description": "Whether single or multiple items can be opened"
-      },
-      {
-        "name": "collapsible",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Whether items can be collapsed when type is single"
-      }
-    ],
-    "subComponents": [
-      "AccordionItem",
-      "AccordionTrigger",
-      "AccordionContent"
-    ],
-    "variants": ["default"],
-    "useCases": ["FAQ sections", "Settings panels", "Navigation menus", "Content organization", "Feature lists"],
-    "keywords": ["accordion", "collapse", "expand", "disclosure", "toggle", "faq"]
+    "props": "variant",
+    "variants": "default, secondary, destructive, outline"
   }
 ]

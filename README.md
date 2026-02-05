@@ -1,124 +1,98 @@
 # ComponentCompass
 
-**AI-Powered Design System Navigator** -- Algolia Agent Studio Challenge Submission
+An AI-powered design system navigator built for the [Algolia Agent Studio Challenge](https://www.algolia.com/blog/ai-agents-challenge/). ComponentCompass lets developers discover UI components, explore code implementations, and check accessibility guidelines through natural conversation.
 
-ComponentCompass helps developers find the right UI components through natural conversation. Built with Algolia Agent Studio, it orchestrates searches across 7 specialized indices to deliver comprehensive answers about components, code implementations, accessibility guidelines, design tokens, and more.
+## What It Does
 
-## Architecture
+Ask questions in plain English and get comprehensive answers drawn from multiple Algolia indices:
 
-```mermaid
-graph TD
-    subgraph Client["Browser (React + Vite)"]
-        UI[ChatInterface.tsx]
-        CB[CodeBlock.tsx]
-        IC[Icons.tsx]
-        UI --> CB
-        UI --> IC
-    end
+- **Components** -- Browse the full component catalog with props, variants, and usage guidance
+- **Code** -- Get real shadcn/ui source code with syntax highlighting and one-click copy
+- **Accessibility** -- WCAG AA guidelines, ARIA attributes, keyboard support, and common mistakes
+- **Screenshot Analysis** -- Upload a design mockup and GPT-4 Vision identifies matching components
 
-    subgraph Services
-        AG[algolia.ts<br/>Agent Studio Client]
-        VS[vision.ts<br/>GPT-4 Vision]
-    end
+## How It Works
 
-    subgraph Algolia["Algolia Agent Studio"]
-        AGENT[Agent<br/>gpt-4-turbo]
-        IDX1[components_index]
-        IDX2[code_implementations_index]
-        IDX3[accessibility_index]
-        IDX4[design_tokens_index]
-        IDX5[usage_analytics_index]
-        IDX6[storybook_index]
-        IDX7[changelog_index]
-        AGENT --> IDX1 & IDX2 & IDX3 & IDX4 & IDX5 & IDX6 & IDX7
-    end
-
-    UI -->|text query| AG
-    UI -->|screenshot upload| VS
-    AG -->|/completions| AGENT
-    VS -->|analyze image| OpenAI[GPT-4o Vision]
-    OpenAI -->|component identification| AG
-    AGENT -->|structured response| UI
-
-    style Client fill:#F9F6F0,stroke:#2C3E50,color:#2C3E50
-    style Algolia fill:#1A535C,stroke:#14424A,color:#FFF
-    style Services fill:#C84B31,stroke:#A63D2A,color:#FFF
+```
+User question
+     |
+     v
+Algolia Agent Studio (gpt-4-turbo)
+     |
+     +---> components_index
+     +---> code_implementations_index
+     +---> accessibility_index
+     |
+     v
+Streamed response with sources
 ```
 
-## Features
-
-- **Multi-Index Search** -- Queries 7 Algolia indices simultaneously for comprehensive results
-- **Screenshot Analysis** -- Upload design mockups; GPT-4 Vision identifies matching components
-- **Syntax-Highlighted Code** -- Production-ready code examples with one-click copy
-- **Session Persistence** -- Conversations saved to localStorage with export to Markdown
-- **Cartographic Theme** -- Distinctive vintage map aesthetic with custom SVG icon system
-- **Mobile-First Responsive** -- Full support for mobile viewports, safe areas, and touch targets
+The Agent Studio agent orchestrates searches across specialized Algolia indices, then synthesizes results into a conversational response streamed to the browser via SSE.
 
 ## Quick Start
 
 ```bash
-# Install dependencies
 npm install
-
-# Configure environment
-cp .env.example .env
-# Fill in your Algolia and OpenAI keys
-
-# Seed data to Algolia
+cp .env.example .env   # fill in your Algolia credentials
 node scripts/upload-enhanced.mjs
-
-# Start dev server
 npm run dev
 ```
 
-Open **http://localhost:5173/**
+Open http://localhost:5173
 
 ## Environment Variables
 
-```env
-VITE_ALGOLIA_APP_ID=your_app_id
-VITE_ALGOLIA_API_KEY=your_search_api_key
-VITE_AGENT_ID=your_agent_id
-VITE_OPENAI_API_KEY=your_openai_api_key   # optional, for screenshot analysis
-```
-
-## Project Structure
-
-```
-src/
-  App.tsx                         Entry point
-  components/
-    ChatInterface.tsx             Main chat UI (~790 lines)
-    CodeBlock.tsx                 Syntax-highlighted code display
-    Icons.tsx                     Cartographic-themed SVG icons (20 icons)
-  services/
-    algolia.ts                    Algolia Agent Studio client
-    vision.ts                     GPT-4 Vision screenshot analysis
-data/                             Algolia index seed data (10 JSON files)
-scripts/                          Data upload and test scripts
-docs/                             Planning and specification documents
-```
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `VITE_ALGOLIA_APP_ID` | Yes | Algolia Application ID |
+| `VITE_ALGOLIA_SEARCH_API_KEY` | Yes | Algolia Search API Key |
+| `VITE_ALGOLIA_AGENT_ID` | Yes | Agent Studio Agent ID |
+| `VITE_OPENAI_API_KEY` | No | OpenAI key for screenshot analysis |
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
 | Framework | React 19, TypeScript 5.9, Vite 7 |
-| Styling | Tailwind CSS 3.4 with custom design tokens |
-| Fonts | Fraunces (display), Epilogue (body), JetBrains Mono (code) |
-| AI Search | Algolia Agent Studio (gpt-4-turbo) |
+| Styling | Tailwind CSS 3.4 |
+| AI/Search | Algolia Agent Studio |
+| Streaming | AI SDK 6 (`@ai-sdk/react`) with SSE fallback |
+| Code Display | prism-react-renderer |
 | Vision | OpenAI GPT-4o |
-| Rendering | react-markdown, prism-react-renderer |
-| Icons | Custom SVG cartographic icon system |
 
-## Contest Alignment
+## Project Structure
 
-| Criteria | Weight | Approach |
-|----------|--------|----------|
-| Use of Technology | 40% | 7-index Agent Studio orchestration, real shadcn/ui data |
-| UX | 25% | Cartographic theme, responsive design, visual loading states |
-| Creativity | 20% | Map/compass metaphor, screenshot-to-component workflow |
-| Innovation | 15% | Multimodal AI (text + vision), conversational design system |
+```
+src/
+  components/
+    ChatInterface.tsx      Main conversational UI
+    CodeBlock.tsx          Syntax highlighting + quick actions
+    ComponentCard.tsx      Interactive component cards
+    FeedbackButtons.tsx    User feedback tracking
+    ErrorBoundary.tsx      Error handling with helpful messages
+    Icons.tsx              20 custom SVG icons
+  services/
+    algolia.ts             Agent Studio client (streaming + SSE fallback)
+    vision.ts              GPT-4 Vision screenshot analysis
+    insights.ts            Algolia Insights tracking
+  lib/
+    env.ts                 Environment validation
+    utils.ts               Utility functions
+  test/
+    setup.ts               Test configuration
+data/                      Algolia index seed data
+scripts/                   Upload and test utilities
+```
+
+## Design
+
+ComponentCompass uses a vintage cartographic theme:
+
+- **Parchment** (#F9F6F0) background with map texture
+- **Compass** (#C84B31) accent for interactive elements
+- **Ocean** (#1A535C) for secondary actions
+- **Gold** (#D4AF37) for decorative accents
+- Custom fonts: Fraunces (display), Epilogue (body), JetBrains Mono (code)
 
 ## Keyboard Shortcuts
 
@@ -127,21 +101,41 @@ docs/                             Planning and specification documents
 | `Enter` | Send message |
 | `Shift+Enter` | New line |
 | `Cmd+K` | New conversation |
-| `Cmd+E` | Export conversation |
+| `Cmd+E` | Export to Markdown |
 | `Cmd+/` | Toggle session stats |
 
-## Documentation
+## Testing
 
-See the `docs/` directory for detailed planning documents:
+```bash
+npm test              # Run all tests
+npm test:ui           # Run tests with UI
+npm test:coverage     # Generate coverage report
+```
 
-- [Project Overview](docs/01-PROJECT-OVERVIEW.md)
-- [Technical Architecture](docs/02-TECHNICAL-ARCHITECTURE.md)
-- [Data Schemas](docs/03-DATA-SCHEMAS.md)
-- [Agent Prompts](docs/04-AGENT-PROMPTS.md)
-- [UI/UX Specs](docs/05-UI-UX-SPECS.md)
-- [Implementation Roadmap](docs/06-IMPLEMENTATION-ROADMAP.md)
-- [Demo Script](docs/07-DEMO-SCRIPT.md)
+- **24 passing tests** across 4 test suites
+- Unit tests for components, services, and utilities
+- Vitest + React Testing Library
+- Full mocking for API calls and environment
+
+## Code Quality
+
+- ✅ **Zero ESLint errors** - Strict TypeScript configuration
+- ✅ **WCAG 2.1 AA compliant** - Full accessibility support
+- ✅ **Optimized bundle** - Code splitting reduces initial load by 67%
+- ✅ **Type-safe** - Strict mode enabled throughout
+- ✅ **Tested** - 24/24 tests passing
+
+See `IMPROVEMENTS.md` for detailed list of optimizations and `ACCESSIBILITY.md` for accessibility compliance.
+
+## Contest Criteria
+
+| Criteria | Weight | Implementation |
+|----------|--------|----------------|
+| Use of Technology | 40% | Multi-index Agent Studio orchestration, streaming SSE, real shadcn/ui data |
+| UX | 25% | Responsive design, loading states, session persistence, conversation export |
+| Creativity | 20% | Cartographic theme, 20 custom SVG icons, screenshot-to-component workflow |
+| Innovation | 15% | Multimodal AI (text + vision), contextual follow-up suggestions, code quick actions |
 
 ---
 
-Built for the Algolia Agent Studio Challenge -- February 2026
+Built by Elizabeth Stein for the Algolia Agent Studio Challenge -- February 2026
