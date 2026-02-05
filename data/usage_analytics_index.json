@@ -1,0 +1,117 @@
+[
+  {
+    "objectID": "usage-button-robocollective",
+    "componentName": "Button",
+    "variant": "primary",
+    "site": "robocollective.ai",
+    "siteUrl": "https://robocollective.ai",
+    "pageUrl": "https://robocollective.ai/",
+    "pageName": "Homepage Hero",
+    "occurrences": 2,
+    "locations": [
+      {
+        "description": "Main CTA - Get Started",
+        "section": "Hero",
+        "screenshot": "https://..."
+      },
+      {
+        "description": "Secondary CTA - Learn More",
+        "section": "Hero",
+        "screenshot": "https://..."
+      }
+    ],
+    "usage": {
+      "clicks": 1250,
+      "impressions": 12500,
+      "ctr": "10%",
+      "period": "last-30-days"
+    },
+    "props": {
+      "variant": "primary",
+      "size": "lg"
+    },
+    "status": "live",
+    "lastChecked": "2026-01-10T00:00:00Z",
+    "tags": ["button", "cta", "homepage"]
+  },
+  {
+    "objectID": "usage-input-caipo-contact",
+    "componentName": "Input",
+    "variant": "default",
+    "site": "caipo.ai",
+    "siteUrl": "https://caipo.ai",
+    "pageUrl": "https://caipo.ai/contact",
+    "pageName": "Contact Form",
+    "occurrences": 4,
+    "locations": [
+      {
+        "description": "Name field",
+        "section": "Contact Form",
+        "screenshot": "https://..."
+      },
+      {
+        "description": "Email field",
+        "section": "Contact Form",
+        "screenshot": "https://..."
+      },
+      {
+        "description": "Company field",
+        "section": "Contact Form",
+        "screenshot": "https://..."
+      },
+      {
+        "description": "Message field",
+        "section": "Contact Form",
+        "screenshot": "https://..."
+      }
+    ],
+    "usage": {
+      "submissions": 45,
+      "validationErrors": 12,
+      "errorRate": "27%",
+      "period": "last-30-days"
+    },
+    "props": {
+      "type": "text",
+      "required": true
+    },
+    "status": "live",
+    "lastChecked": "2026-01-10T00:00:00Z",
+    "tags": ["input", "form", "contact"]
+  },
+  {
+    "objectID": "usage-card-robocollective-services",
+    "componentName": "Card",
+    "variant": "default",
+    "site": "robocollective.ai",
+    "siteUrl": "https://robocollective.ai",
+    "pageUrl": "https://robocollective.ai/services",
+    "pageName": "Services Page",
+    "occurrences": 6,
+    "locations": [
+      {
+        "description": "AI Consulting Service Card",
+        "section": "Services Grid",
+        "screenshot": "https://..."
+      },
+      {
+        "description": "Custom Development Service Card",
+        "section": "Services Grid",
+        "screenshot": "https://..."
+      }
+    ],
+    "usage": {
+      "clicks": 320,
+      "impressions": 2800,
+      "ctr": "11.4%",
+      "period": "last-30-days"
+    },
+    "props": {
+      "elevation": "low",
+      "padding": "md"
+    },
+    "status": "live",
+    "lastChecked": "2026-01-10T00:00:00Z",
+    "tags": ["card", "services", "grid"]
+  }
+]

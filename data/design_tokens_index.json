@@ -1,0 +1,135 @@
+[
+  {
+    "objectID": "color-primary",
+    "category": "Color",
+    "name": "Primary",
+    "value": "#0066FF",
+    "cssVariable": "--color-primary",
+    "hex": "#0066FF",
+    "rgb": "rgb(0, 102, 255)",
+    "hsl": "hsl(216, 100%, 50%)",
+    "usage": ["Primary actions", "Links", "Focus indicators"],
+    "wcagContrast": {
+      "onWhite": "4.5:1",
+      "onBlack": "8.2:1"
+    },
+    "figmaReference": "Colors / Primary / Base",
+    "tags": ["color", "primary", "brand"],
+    "updatedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "objectID": "color-secondary",
+    "category": "Color",
+    "name": "Secondary",
+    "value": "#6B7280",
+    "cssVariable": "--color-secondary",
+    "hex": "#6B7280",
+    "rgb": "rgb(107, 114, 128)",
+    "hsl": "hsl(220, 9%, 46%)",
+    "usage": ["Secondary actions", "Text labels", "Borders"],
+    "wcagContrast": {
+      "onWhite": "4.6:1",
+      "onBlack": "5.1:1"
+    },
+    "figmaReference": "Colors / Gray / 500",
+    "tags": ["color", "secondary", "neutral"],
+    "updatedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "objectID": "spacing-xs",
+    "category": "Spacing",
+    "name": "Extra Small",
+    "value": "4px",
+    "cssVariable": "--spacing-xs",
+    "rem": "0.25rem",
+    "usage": ["Icon padding", "Small gaps", "Tight spacing"],
+    "figmaReference": "Spacing / XS",
+    "tags": ["spacing", "layout"],
+    "updatedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "objectID": "spacing-sm",
+    "category": "Spacing",
+    "name": "Small",
+    "value": "8px",
+    "cssVariable": "--spacing-sm",
+    "rem": "0.5rem",
+    "usage": ["Component padding", "List gaps", "Form spacing"],
+    "figmaReference": "Spacing / SM",
+    "tags": ["spacing", "layout"],
+    "updatedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "objectID": "spacing-md",
+    "category": "Spacing",
+    "name": "Medium",
+    "value": "16px",
+    "cssVariable": "--spacing-md",
+    "rem": "1rem",
+    "usage": ["Default spacing", "Section padding", "Card spacing"],
+    "figmaReference": "Spacing / MD",
+    "tags": ["spacing", "layout"],
+    "updatedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "objectID": "typography-heading-1",
+    "category": "Typography",
+    "name": "Heading 1",
+    "fontSize": "48px",
+    "lineHeight": "56px",
+    "fontWeight": "700",
+    "fontFamily": "Inter",
+    "cssVariable": "--font-heading-1",
+    "usage": ["Page titles", "Hero headings"],
+    "figmaReference": "Typography / H1",
+    "tags": ["typography", "heading"],
+    "updatedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "objectID": "typography-body",
+    "category": "Typography",
+    "name": "Body",
+    "fontSize": "16px",
+    "lineHeight": "24px",
+    "fontWeight": "400",
+    "fontFamily": "Inter",
+    "cssVariable": "--font-body",
+    "usage": ["Body text", "Descriptions", "Paragraphs"],
+    "figmaReference": "Typography / Body",
+    "tags": ["typography", "body"],
+    "updatedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "objectID": "shadow-sm",
+    "category": "Shadow",
+    "name": "Small Shadow",
+    "value": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+    "cssVariable": "--shadow-sm",
+    "usage": ["Cards", "Buttons", "Subtle elevation"],
+    "figmaReference": "Effects / Shadow / SM",
+    "tags": ["shadow", "elevation"],
+    "updatedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "objectID": "shadow-md",
+    "category": "Shadow",
+    "name": "Medium Shadow",
+    "value": "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+    "cssVariable": "--shadow-md",
+    "usage": ["Dropdowns", "Popovers", "Modals"],
+    "figmaReference": "Effects / Shadow / MD",
+    "tags": ["shadow", "elevation"],
+    "updatedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "objectID": "border-radius-sm",
+    "category": "Border Radius",
+    "name": "Small Radius",
+    "value": "4px",
+    "cssVariable": "--radius-sm",
+    "usage": ["Buttons", "Tags", "Small elements"],
+    "figmaReference": "Radius / SM",
+    "tags": ["radius", "border"],
+    "updatedAt": "2025-01-01T00:00:00Z"
+  }
+]

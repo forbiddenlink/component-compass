@@ -1,0 +1,290 @@
+/* ComponentCompass — Technical Cartography Aesthetic */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Epilogue:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base Reset ──────────────────────────────────── */
+
+@layer base {
+  :root {
+    --map-parchment: #F9F6F0;
+    --map-ink: #2C3E50;
+    --compass-rose: #C84B31;
+    --ocean-blue: #1A535C;
+    --terrain-green: #4E6E58;
+    --gold-accent: #D4AF37;
+    --shadow-brown: rgba(44, 62, 80, 0.15);
+    --warm-white: #FFF9F0;
+    --deep-charcoal: #1A1D23;
+
+    /* Safe-area fallbacks */
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+  }
+
+  * {
+    @apply antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    height: 100%;
+    height: -webkit-fill-available;
+  }
+
+  body {
+    font-family: 'Epilogue', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--map-parchment);
+    height: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+  }
+
+  code, pre {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  /* Prevent iOS text size inflation */
+  input, textarea, select, button {
+    font-size: 16px;
+  }
+
+  @media (min-width: 768px) {
+    input, textarea, select, button {
+      font-size: inherit;
+    }
+  }
+}
+
+/* ─── Utility Layer ───────────────────────────────── */
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Topographic Background Pattern */
+  .topo-background {
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 50px,
+        rgba(44, 62, 80, 0.03) 50px,
+        rgba(44, 62, 80, 0.03) 51px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 50px,
+        rgba(44, 62, 80, 0.03) 50px,
+        rgba(44, 62, 80, 0.03) 51px
+      );
+  }
+
+  /* Contour Lines Effect */
+  .contour-lines {
+    background-image:
+      radial-gradient(ellipse at center, transparent 0%, transparent 45%, rgba(44, 62, 80, 0.05) 45%, rgba(44, 62, 80, 0.05) 46%, transparent 46%),
+      radial-gradient(ellipse at center, transparent 0%, transparent 65%, rgba(44, 62, 80, 0.04) 65%, rgba(44, 62, 80, 0.04) 66%, transparent 66%),
+      radial-gradient(ellipse at center, transparent 0%, transparent 85%, rgba(44, 62, 80, 0.03) 85%, rgba(44, 62, 80, 0.03) 86%, transparent 86%);
+  }
+
+  /* Compass Animation */
+  .compass-spin {
+    animation: compass-rotate 20s linear infinite;
+  }
+
+  @keyframes compass-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Map Texture */
+  .map-texture {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+
+  /* Torn Paper Edge */
+  .torn-edge {
+    position: relative;
+  }
+
+  .torn-edge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+      transparent 0px, var(--map-parchment) 2px, transparent 4px,
+      transparent 4px, var(--map-parchment) 6px, transparent 8px,
+      transparent 8px, var(--map-parchment) 10px, transparent 12px
+    );
+    background-size: 12px 3px;
+  }
+
+  /* Vintage Paper Shadow */
+  .paper-shadow {
+    box-shadow:
+      0 2px 4px rgba(44, 62, 80, 0.08),
+      0 4px 8px rgba(44, 62, 80, 0.06),
+      0 8px 16px rgba(44, 62, 80, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  /* Wax Seal Effect */
+  .wax-seal {
+    position: relative;
+    background: radial-gradient(circle at center, var(--compass-rose) 0%, #A63D2A 100%);
+    box-shadow:
+      inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+      0 2px 8px rgba(200, 75, 49, 0.4);
+  }
+
+  /* Journey Path */
+  .journey-path {
+    stroke-dasharray: 5, 5;
+    animation: draw-path 2s linear infinite;
+  }
+
+  @keyframes draw-path {
+    from { stroke-dashoffset: 50; }
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Typing dots */
+  @keyframes bounce-typing {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-8px); }
+  }
+
+  /* Safe-area padding helpers */
+  .safe-pb {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .safe-pt {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+}
+
+/* ─── Animation Classes ───────────────────────────── */
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInFromBottom {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInFromRight {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInFromTop {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gradientBg {
+  0%, 100% { transform: translateY(0%) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-20%) scale(1.1); opacity: 0.5; }
+}
+
+.animate-gradient-bg {
+  animation: gradientBg 15s ease-in-out infinite;
+}
+
+.animate-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.slide-in-from-bottom-2 {
+  animation: slideInFromBottom 0.3s ease-out;
+}
+
+.slide-in-from-bottom-4 {
+  animation: slideInFromBottom 0.5s ease-out;
+}
+
+.slide-in-from-right-4 {
+  animation: slideInFromRight 0.3s ease-out;
+}
+
+.slide-in-from-top-2 {
+  animation: slideInFromTop 0.3s ease-out;
+}
+
+.slide-in-from-left-2 {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* ─── Scrollbar ───────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(44, 62, 80, 0.05);
+  border-left: 1px solid rgba(44, 62, 80, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--compass-rose) 0%, #A63D2A 100%);
+  border-radius: 2px;
+  border: 2px solid var(--map-parchment);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #D85740 0%, var(--compass-rose) 100%);
+}
+
+/* Firefox scrollbar */
+@supports (scrollbar-color: auto) {
+  * {
+    scrollbar-color: var(--compass-rose) rgba(44, 62, 80, 0.05);
+    scrollbar-width: thin;
+  }
+}
+
+/* ─── Selection ───────────────────────────────────── */
+
+::selection {
+  background: var(--gold-accent);
+  color: var(--map-ink);
+}

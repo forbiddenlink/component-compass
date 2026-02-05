@@ -1,0 +1,99 @@
+[
+  {
+    "objectID": "figma-button-component",
+    "componentName": "Button",
+    "figmaFileId": "abc123xyz",
+    "figmaNodeId": "123:456",
+    "figmaUrl": "https://figma.com/file/abc123xyz/Design-System?node-id=123:456",
+    "thumbnailUrl": "https://s3.amazonaws.com/figma-alpha-api/img/0a1b/2c3d/...",
+    "variants": [
+      {
+        "name": "Primary",
+        "properties": {
+          "variant": "primary",
+          "size": "medium"
+        }
+      },
+      {
+        "name": "Secondary",
+        "properties": {
+          "variant": "secondary",
+          "size": "medium"
+        }
+      }
+    ],
+    "description": "Primary action button component",
+    "designNotes": "Use primary variant for main CTAs. Limit to one per screen section.",
+    "status": "published",
+    "lastModified": "2025-12-10T00:00:00Z",
+    "tags": ["button", "action", "interactive"],
+    "keywords": ["button", "cta", "primary", "action"]
+  },
+  {
+    "objectID": "figma-input-component",
+    "componentName": "Input",
+    "figmaFileId": "abc123xyz",
+    "figmaNodeId": "234:567",
+    "figmaUrl": "https://figma.com/file/abc123xyz/Design-System?node-id=234:567",
+    "thumbnailUrl": "https://s3.amazonaws.com/figma-alpha-api/img/1b2c/3d4e/...",
+    "variants": [
+      {
+        "name": "Default",
+        "properties": {
+          "state": "default",
+          "size": "medium"
+        }
+      },
+      {
+        "name": "Error",
+        "properties": {
+          "state": "error",
+          "size": "medium"
+        }
+      },
+      {
+        "name": "Success",
+        "properties": {
+          "state": "success",
+          "size": "medium"
+        }
+      }
+    ],
+    "description": "Text input field with label and states",
+    "designNotes": "Always include visible label. Show error state with red border and message.",
+    "status": "published",
+    "lastModified": "2025-12-08T00:00:00Z",
+    "tags": ["input", "form", "field"],
+    "keywords": ["input", "textbox", "form", "field"]
+  },
+  {
+    "objectID": "figma-card-component",
+    "componentName": "Card",
+    "figmaFileId": "abc123xyz",
+    "figmaNodeId": "345:678",
+    "figmaUrl": "https://figma.com/file/abc123xyz/Design-System?node-id=345:678",
+    "thumbnailUrl": "https://s3.amazonaws.com/figma-alpha-api/img/2c3d/4e5f/...",
+    "variants": [
+      {
+        "name": "Default",
+        "properties": {
+          "elevation": "low",
+          "padding": "medium"
+        }
+      },
+      {
+        "name": "Elevated",
+        "properties": {
+          "elevation": "high",
+          "padding": "medium"
+        }
+      }
+    ],
+    "description": "Container for grouping related content",
+    "designNotes": "Use elevated variant sparingly for emphasis. Default padding is 16px.",
+    "status": "published",
+    "lastModified": "2025-12-05T00:00:00Z",
+    "tags": ["card", "container", "layout"],
+    "keywords": ["card", "container", "box", "panel"]
+  }
+]

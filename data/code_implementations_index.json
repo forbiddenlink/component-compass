@@ -1,0 +1,18 @@
+[
+  {
+    "objectID": "button-impl-1",
+    "componentId": "button",
+    "language": "tsx",
+    "content": "\nimport { Button } from '@flolabs/ui';\n\nexport const SubmitButton = () => (\n  <Button \n    variant=\"primary\" \n    onClick={() => handleSubmit()}\n    aria-label=\"Submit form\"\n  >\n    Submit Application\n  </Button>\n);\n",
+    "context": "Usage in RegistrationForm.tsx",
+    "sourceUrl": "https://github.com/flolabs/web/blob/main/src/forms/RegistrationForm.tsx"
+  },
+  {
+    "objectID": "input-impl-1",
+    "componentId": "input",
+    "language": "tsx",
+    "content": "\nimport { Input } from '@flolabs/ui';\n\nexport const EmailField = () => (\n  <Input\n    type=\"email\"\n    label=\"Email Address\"\n    placeholder=\"you@company.com\"\n    required\n    error={errors.email}\n  />\n);\n",
+    "context": "Usage in LoginForm.tsx",
+    "sourceUrl": "https://github.com/flolabs/web/blob/main/src/auth/LoginForm.tsx"
+  }
+]

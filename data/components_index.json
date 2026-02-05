@@ -1,0 +1,126 @@
+[
+  {
+    "objectID": "button",
+    "name": "Button",
+    "displayName": "Button Component",
+    "category": "Actions",
+    "description": "A flexible button component supporting multiple variants",
+    "variants": [
+      "primary",
+      "secondary",
+      "destructive",
+      "ghost"
+    ],
+    "props": [
+      {
+        "name": "variant",
+        "type": "'primary' | 'secondary' | 'destructive' | 'ghost'",
+        "required": false,
+        "defaultValue": "primary",
+        "description": "The visual style of the button"
+      },
+      {
+        "name": "size",
+        "type": "'sm' | 'md' | 'lg'",
+        "required": false,
+        "defaultValue": "md",
+        "description": "The size of the button"
+      }
+    ],
+    "storybookUrl": "https://storybook.flolabs.com/?path=/docs/button",
+    "accessibilityNotes": "Use semantic <button> element. Include aria-label for icon-only buttons.",
+    "status": "stable",
+    "tags": [
+      "interactive",
+      "action",
+      "form"
+    ],
+    "keywords": [
+      "button",
+      "cta",
+      "submit",
+      "click"
+    ],
+    "createdAt": "2024-01-15T00:00:00Z",
+    "updatedAt": "2025-12-01T00:00:00Z"
+  },
+  {
+    "objectID": "input",
+    "name": "Input",
+    "displayName": "Input Component",
+    "category": "Forms",
+    "description": "Text input field with label and error states",
+    "variants": [
+      "text",
+      "email",
+      "password",
+      "search"
+    ],
+    "props": [
+      {
+        "name": "type",
+        "type": "'text' | 'email' | 'password' | 'search'",
+        "required": false,
+        "defaultValue": "text",
+        "description": "Input type"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "description": "Label text for the input"
+      }
+    ],
+    "accessibilityNotes": "Always provide a visible label. Use aria-describedby for error messages.",
+    "status": "stable",
+    "tags": [
+      "form",
+      "input",
+      "text"
+    ],
+    "keywords": [
+      "input",
+      "form",
+      "field",
+      "textbox"
+    ],
+    "createdAt": "2024-02-01T00:00:00Z",
+    "updatedAt": "2025-11-15T00:00:00Z"
+  },
+  {
+    "objectID": "card",
+    "name": "Card",
+    "displayName": "Card Component",
+    "category": "Layout",
+    "description": "Container component for grouping related content",
+    "variants": [
+      "default",
+      "hover",
+      "bordered"
+    ],
+    "props": [
+      {
+        "name": "padding",
+        "type": "'none' | 'sm' | 'md' | 'lg'",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Padding inside the card"
+      }
+    ],
+    "accessibilityNotes": "Cards are generally static containers. If they are interactive, ensure the whole card is a click target or use proper focus management.",
+    "status": "stable",
+    "tags": [
+      "layout",
+      "container",
+      "box"
+    ],
+    "keywords": [
+      "card",
+      "panel",
+      "box",
+      "container"
+    ],
+    "createdAt": "2024-03-01T00:00:00Z",
+    "updatedAt": "2025-10-20T00:00:00Z"
+  }
+]

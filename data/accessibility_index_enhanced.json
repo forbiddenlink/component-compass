@@ -1,0 +1,279 @@
+[
+  {
+    "objectID": "button-a11y-1",
+    "componentId": "button-1",
+    "componentName": "Button",
+    "wcagLevel": "AA",
+    "guidelines": [
+      "Use semantic <button> element for actions",
+      "Ensure 44x44px minimum touch target size",
+      "Provide visible focus indicator with 2px outline",
+      "Maintain 4.5:1 color contrast ratio for text",
+      "Support keyboard activation with Enter and Space",
+      "Communicate disabled state with aria-disabled when appropriate"
+    ],
+    "ariaAttributes": [
+      {
+        "attribute": "aria-label",
+        "required": false,
+        "usage": "Use when button contains only an icon with no visible text",
+        "example": "<Button aria-label=\"Close dialog\"><X /></Button>"
+      },
+      {
+        "attribute": "aria-pressed",
+        "required": false,
+        "usage": "Use for toggle buttons to indicate pressed state",
+        "example": "<Button aria-pressed={isPressed}>Toggle</Button>"
+      },
+      {
+        "attribute": "aria-disabled",
+        "required": false,
+        "usage": "Use when button should be perceived as disabled but remain focusable",
+        "example": "<Button aria-disabled=\"true\">Disabled</Button>"
+      }
+    ],
+    "keyboardSupport": [
+      { "key": "Enter", "action": "Activates the button" },
+      { "key": "Space", "action": "Activates the button" }
+    ],
+    "focusManagement": "Button receives focus on tab. Visible focus ring with 2px ring-offset.",
+    "screenReaderGuidance": "Announced as 'Button' with its accessible name. If disabled, announced with 'disabled' or 'dimmed'.",
+    "commonMistakes": [
+      "Using div or span instead of button element",
+      "Missing aria-label for icon-only buttons",
+      "Insufficient color contrast in outline variant",
+      "Touch target too small for icon buttons",
+      "Not disabling pointer events when disabled"
+    ],
+    "codeExample": "// Accessible button with icon\n<Button aria-label=\"Delete item\" size=\"icon\">\n  <Trash className=\"h-4 w-4\" />\n</Button>\n\n// Loading state\n<Button disabled={isLoading} aria-busy={isLoading}>\n  {isLoading && <Loader className=\"mr-2 h-4 w-4 animate-spin\" />}\n  Submit\n</Button>",
+    "resources": [
+      { "title": "ARIA: button role", "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role" },
+      { "title": "WCAG 2.1 - Target Size", "url": "https://www.w3.org/WAI/WCAG21/Understanding/target-size.html" }
+    ]
+  },
+  {
+    "objectID": "input-a11y-1",
+    "componentId": "input-1",
+    "componentName": "Input",
+    "wcagLevel": "AA",
+    "guidelines": [
+      "Always associate input with a visible label using <label> element",
+      "Use aria-describedby to associate error messages and hints",
+      "Ensure 4.5:1 color contrast for placeholder and input text",
+      "Provide clear error messages near the input",
+      "Use appropriate input types (email, tel, url) for better mobile keyboards",
+      "Mark required fields with aria-required or required attribute"
+    ],
+    "ariaAttributes": [
+      {
+        "attribute": "aria-label or aria-labelledby",
+        "required": true,
+        "usage": "Associate input with its label",
+        "example": "<Input aria-labelledby=\"email-label\" />"
+      },
+      {
+        "attribute": "aria-required",
+        "required": false,
+        "usage": "Indicate required fields",
+        "example": "<Input aria-required=\"true\" />"
+      },
+      {
+        "attribute": "aria-invalid",
+        "required": false,
+        "usage": "Indicate validation errors",
+        "example": "<Input aria-invalid={hasError} />"
+      },
+      {
+        "attribute": "aria-describedby",
+        "required": false,
+        "usage": "Associate with helper text or error messages",
+        "example": "<Input aria-describedby=\"email-error email-hint\" />"
+      }
+    ],
+    "keyboardSupport": [
+      { "key": "Tab", "action": "Moves focus to input" },
+      { "key": "Shift + Tab", "action": "Moves focus to previous element" }
+    ],
+    "focusManagement": "Input receives focus ring with 2px offset. Focus moves to input when label is clicked.",
+    "screenReaderGuidance": "Announced with label, type, required state, and current value. Error messages announced when aria-invalid is true.",
+    "commonMistakes": [
+      "Using placeholder as label replacement",
+      "Not associating error messages with aria-describedby",
+      "Missing visible label",
+      "Insufficient color contrast for error states",
+      "Not announcing validation errors to screen readers"
+    ],
+    "codeExample": "// Accessible form input with validation\n<div>\n  <Label htmlFor=\"email\">Email Address *</Label>\n  <Input\n    id=\"email\"\n    type=\"email\"\n    aria-required=\"true\"\n    aria-invalid={!!error}\n    aria-describedby=\"email-error email-hint\"\n  />\n  <p id=\"email-hint\" className=\"text-sm text-muted-foreground\">\n    We'll never share your email.\n  </p>\n  {error && (\n    <p id=\"email-error\" className=\"text-sm text-destructive\" role=\"alert\">\n      {error}\n    </p>\n  )}\n</div>",
+    "resources": [
+      { "title": "ARIA: textbox role", "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/textbox_role" },
+      { "title": "Creating Accessible Forms", "url": "https://webaim.org/techniques/forms/" }
+    ]
+  },
+  {
+    "objectID": "dialog-a11y-1",
+    "componentId": "dialog-1",
+    "componentName": "Dialog",
+    "wcagLevel": "AA",
+    "guidelines": [
+      "Trap focus within dialog while open",
+      "Return focus to trigger element on close",
+      "Allow closing with Escape key",
+      "Provide visible close button",
+      "Use role='dialog' and aria-modal='true'",
+      "Label dialog with aria-labelledby pointing to title"
+    ],
+    "ariaAttributes": [
+      {
+        "attribute": "role",
+        "required": true,
+        "usage": "Must be 'dialog' or 'alertdialog'",
+        "example": "<div role=\"dialog\">...</div>"
+      },
+      {
+        "attribute": "aria-modal",
+        "required": true,
+        "usage": "Set to true to indicate modal behavior",
+        "example": "<div role=\"dialog\" aria-modal=\"true\">...</div>"
+      },
+      {
+        "attribute": "aria-labelledby",
+        "required": true,
+        "usage": "Reference the dialog title",
+        "example": "<div role=\"dialog\" aria-labelledby=\"dialog-title\">...</div>"
+      },
+      {
+        "attribute": "aria-describedby",
+        "required": false,
+        "usage": "Reference the dialog description",
+        "example": "<div role=\"dialog\" aria-describedby=\"dialog-desc\">...</div>"
+      }
+    ],
+    "keyboardSupport": [
+      { "key": "Escape", "action": "Closes the dialog" },
+      { "key": "Tab", "action": "Moves focus to next focusable element within dialog" },
+      { "key": "Shift + Tab", "action": "Moves focus to previous focusable element, cycling within dialog" }
+    ],
+    "focusManagement": "Focus moves to first focusable element when opened. Focus is trapped within dialog. Focus returns to trigger on close.",
+    "screenReaderGuidance": "Dialog announced with its title and description. Modal state announced. Close button announced.",
+    "commonMistakes": [
+      "Not trapping focus within dialog",
+      "Missing Escape key handler",
+      "Not restoring focus on close",
+      "Missing aria-labelledby",
+      "Not setting aria-modal='true'",
+      "Allowing background content to be interactive"
+    ],
+    "codeExample": "// Accessible dialog implementation\n<Dialog open={open} onOpenChange={setOpen}>\n  <DialogTrigger asChild>\n    <Button>Open Dialog</Button>\n  </DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>Confirm Action</DialogTitle>\n      <DialogDescription>\n        This action cannot be undone. Are you sure?\n      </DialogDescription>\n    </DialogHeader>\n    <DialogFooter>\n      <Button variant=\"outline\" onClick={() => setOpen(false)}>\n        Cancel\n      </Button>\n      <Button onClick={handleConfirm}>Confirm</Button>\n    </DialogFooter>\n  </DialogContent>\n</Dialog>",
+    "resources": [
+      { "title": "ARIA: dialog role", "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/dialog_role" },
+      { "title": "ARIA Authoring Practices - Dialog", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/" }
+    ]
+  },
+  {
+    "objectID": "select-a11y-1",
+    "componentId": "select-1",
+    "componentName": "Select",
+    "wcagLevel": "AA",
+    "guidelines": [
+      "Associate select with visible label",
+      "Support keyboard navigation with arrow keys",
+      "Announce selected option to screen readers",
+      "Use aria-expanded to indicate open/closed state",
+      "Provide clear visual focus indicators",
+      "Ensure options are keyboard accessible"
+    ],
+    "ariaAttributes": [
+      {
+        "attribute": "aria-labelledby",
+        "required": true,
+        "usage": "Associate with label",
+        "example": "<Select aria-labelledby=\"country-label\" />"
+      },
+      {
+        "attribute": "aria-required",
+        "required": false,
+        "usage": "Indicate required fields",
+        "example": "<Select aria-required=\"true\" />"
+      },
+      {
+        "attribute": "aria-invalid",
+        "required": false,
+        "usage": "Indicate validation errors",
+        "example": "<Select aria-invalid={hasError} />"
+      }
+    ],
+    "keyboardSupport": [
+      { "key": "Enter or Space", "action": "Opens the dropdown" },
+      { "key": "Arrow Up/Down", "action": "Navigate options when open" },
+      { "key": "Home", "action": "Jump to first option" },
+      { "key": "End", "action": "Jump to last option" },
+      { "key": "Escape", "action": "Closes dropdown" }
+    ],
+    "focusManagement": "Select trigger receives focus. Options are keyboard navigable. Focus returns to trigger after selection.",
+    "screenReaderGuidance": "Announced as combobox or listbox with label. Current selection announced. Options announced as user navigates.",
+    "commonMistakes": [
+      "Not providing visible label",
+      "Missing keyboard navigation",
+      "Options not properly announced",
+      "Not communicating selected state",
+      "Missing aria-expanded state"
+    ],
+    "codeExample": "// Accessible select with error state\n<div>\n  <Label htmlFor=\"country\">Country *</Label>\n  <Select\n    value={country}\n    onValueChange={setCountry}\n    aria-required=\"true\"\n    aria-invalid={!!error}\n  >\n    <SelectTrigger id=\"country\">\n      <SelectValue placeholder=\"Select a country\" />\n    </SelectTrigger>\n    <SelectContent>\n      <SelectItem value=\"us\">United States</SelectItem>\n      <SelectItem value=\"uk\">United Kingdom</SelectItem>\n      <SelectItem value=\"ca\">Canada</SelectItem>\n    </SelectContent>\n  </Select>\n  {error && <p role=\"alert\" className=\"text-sm text-destructive\">{error}</p>}\n</div>",
+    "resources": [
+      { "title": "ARIA: combobox role", "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/combobox_role" },
+      { "title": "Select-Only Combobox", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/" }
+    ]
+  },
+  {
+    "objectID": "checkbox-a11y-1",
+    "componentId": "checkbox-1",
+    "componentName": "Checkbox",
+    "wcagLevel": "AA",
+    "guidelines": [
+      "Use role='checkbox' with appropriate aria-checked state",
+      "Associate with visible label using htmlFor/id",
+      "Ensure 44x44px minimum touch target",
+      "Support Space key to toggle",
+      "Provide visible focus indicator",
+      "Communicate indeterminate state with aria-checked='mixed'"
+    ],
+    "ariaAttributes": [
+      {
+        "attribute": "aria-checked",
+        "required": true,
+        "usage": "Indicates checked state: true, false, or mixed",
+        "example": "<div role=\"checkbox\" aria-checked=\"true\" />"
+      },
+      {
+        "attribute": "aria-labelledby",
+        "required": true,
+        "usage": "Associate with label",
+        "example": "<Checkbox aria-labelledby=\"terms-label\" />"
+      },
+      {
+        "attribute": "aria-describedby",
+        "required": false,
+        "usage": "Associate with helper text",
+        "example": "<Checkbox aria-describedby=\"terms-hint\" />"
+      }
+    ],
+    "keyboardSupport": [
+      { "key": "Space", "action": "Toggles checkbox state" },
+      { "key": "Tab", "action": "Moves focus to/from checkbox" }
+    ],
+    "focusManagement": "Checkbox receives focus ring. Focus moves when label is clicked.",
+    "screenReaderGuidance": "Announced as 'checkbox' with label and checked state. Indeterminate state announced as 'mixed'.",
+    "commonMistakes": [
+      "Using div without role='checkbox'",
+      "Not providing visible label",
+      "Touch target too small",
+      "Not communicating indeterminate state",
+      "Missing Space key support"
+    ],
+    "codeExample": "// Accessible checkbox with label\n<div className=\"flex items-center space-x-2\">\n  <Checkbox\n    id=\"terms\"\n    checked={accepted}\n    onCheckedChange={setAccepted}\n    aria-describedby=\"terms-hint\"\n  />\n  <label\n    htmlFor=\"terms\"\n    className=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n  >\n    Accept terms and conditions *\n  </label>\n</div>\n<p id=\"terms-hint\" className=\"text-xs text-muted-foreground\">\n  You agree to our Terms of Service and Privacy Policy.\n</p>",
+    "resources": [
+      { "title": "ARIA: checkbox role", "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/checkbox_role" },
+      { "title": "Checkbox Pattern", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/" }
+    ]
+  }
+]

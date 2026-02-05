@@ -1,0 +1,130 @@
+[
+  {
+    "objectID": "decision-button-variants",
+    "title": "Why we use 4 button variants",
+    "type": "Architecture Decision Record",
+    "category": "Design System",
+    "decision": "We standardized on 4 button variants: primary, secondary, destructive, and ghost",
+    "context": "Previously had 8+ button styles causing inconsistency and decision paralysis",
+    "reasoning": [
+      "Primary: One main action per screen section",
+      "Secondary: Supporting actions",
+      "Destructive: Delete, remove, or dangerous actions",
+      "Ghost: Tertiary actions and navigation"
+    ],
+    "consequences": [
+      "Reduced cognitive load for developers",
+      "Improved visual hierarchy",
+      "Better accessibility through consistent patterns"
+    ],
+    "alternatives": [
+      "Material Design (text, outlined, contained) - too many options",
+      "Single button style with size variations - not enough hierarchy"
+    ],
+    "author": "Design System Team",
+    "date": "2024-03-15T00:00:00Z",
+    "status": "accepted",
+    "tags": ["button", "variants", "decision"],
+    "keywords": ["button", "hierarchy", "variants", "standardization"]
+  },
+  {
+    "objectID": "pattern-form-validation",
+    "title": "Form validation pattern",
+    "type": "Pattern",
+    "category": "Forms",
+    "decision": "All forms use inline validation with specific error messages",
+    "context": "Forms showed only generic error messages at the top",
+    "reasoning": [
+      "Inline errors appear next to the field causing the issue",
+      "Error messages explain what's wrong and how to fix it",
+      "Validation runs onBlur (not onChange) to avoid interrupting typing",
+      "Success indicators shown after field is valid"
+    ],
+    "implementation": [
+      "Use aria-describedby to link error messages",
+      "Set aria-invalid='true' on error fields",
+      "Show errors in red with icon",
+      "Provide specific guidance: 'Email must include @' not 'Invalid input'"
+    ],
+    "examples": [
+      {
+        "good": "Email must include @ symbol",
+        "bad": "Invalid input"
+      },
+      {
+        "good": "Password must be at least 8 characters",
+        "bad": "Error"
+      }
+    ],
+    "author": "UX Team",
+    "date": "2024-06-20T00:00:00Z",
+    "status": "accepted",
+    "tags": ["forms", "validation", "pattern"],
+    "keywords": ["form", "validation", "error", "accessibility"]
+  },
+  {
+    "objectID": "guideline-spacing-rhythm",
+    "title": "Spacing rhythm guidelines",
+    "type": "Guideline",
+    "category": "Layout",
+    "decision": "Use 4px base unit for all spacing (4, 8, 16, 24, 32, 48, 64)",
+    "context": "Inconsistent spacing across products",
+    "reasoning": [
+      "4px base creates visual rhythm",
+      "Easy to calculate (multiply by 2)",
+      "Aligns with 8pt grid system",
+      "Works well at all screen sizes"
+    ],
+    "usage": {
+      "4px": "Icon padding, tight gaps",
+      "8px": "Component internal padding",
+      "16px": "Default spacing between elements",
+      "24px": "Section spacing",
+      "32px": "Large section spacing",
+      "48px": "Page sections",
+      "64px": "Major page divisions"
+    },
+    "doNot": [
+      "Don't use arbitrary values like 13px or 27px",
+      "Don't use spacing tokens for sizing (use sizing tokens)",
+      "Don't break the rhythm without design team approval"
+    ],
+    "author": "Design System Team",
+    "date": "2024-01-10T00:00:00Z",
+    "status": "accepted",
+    "tags": ["spacing", "layout", "guideline"],
+    "keywords": ["spacing", "padding", "margin", "rhythm", "grid"]
+  },
+  {
+    "objectID": "question-when-to-use-card",
+    "title": "When should I use a Card component?",
+    "type": "FAQ",
+    "category": "Components",
+    "question": "When should I use a Card component vs just a div?",
+    "answer": "Use Card when you need to visually group related content and make it interactive or scannable",
+    "guidance": [
+      "✅ Use Card for: Product listings, feature highlights, team member profiles, article previews",
+      "✅ Card benefits: Built-in elevation, padding, hover states, accessibility",
+      "❌ Don't use Card for: Page sections, navigation items, form containers",
+      "❌ Instead use: Section tags, nav elements, fieldsets"
+    ],
+    "examples": [
+      {
+        "scenario": "Product grid",
+        "recommendation": "Use Card - each product is a discrete, clickable unit"
+      },
+      {
+        "scenario": "Page hero section",
+        "recommendation": "Use section tag - not a discrete content unit"
+      }
+    ],
+    "relatedQuestions": [
+      "What's the difference between Card and Panel?",
+      "Can Cards be nested?"
+    ],
+    "author": "Design System Team",
+    "date": "2024-08-15T00:00:00Z",
+    "tags": ["card", "faq", "guidance"],
+    "keywords": ["card", "when to use", "component selection"]
+  }
+]

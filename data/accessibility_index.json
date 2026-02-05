@@ -1,0 +1,169 @@
+[
+  {
+    "objectID": "accessibility-button-pattern",
+    "componentName": "Button",
+    "category": "Interactive",
+    "wcagCriteria": ["1.3.1", "2.1.1", "2.5.3", "4.1.2"],
+    "wcagLevel": "A",
+    "description": "Buttons must be keyboard accessible and have clear focus indicators",
+    "requirements": [
+      "Must use semantic <button> element or role='button'",
+      "Must be keyboard accessible (Enter and Space keys)",
+      "Must have visible focus indicator (min 2px outline)",
+      "Button text must clearly describe the action",
+      "Icon-only buttons need aria-label",
+      "Disabled buttons should have aria-disabled='true'"
+    ],
+    "ariaAttributes": {
+      "required": ["accessible name via text content or aria-label"],
+      "optional": ["aria-pressed", "aria-expanded", "aria-describedby"]
+    },
+    "keyboardSupport": {
+      "Enter": "Activates the button",
+      "Space": "Activates the button",
+      "Tab": "Moves focus to button"
+    },
+    "examples": {
+      "good": [
+        "<button>Save Changes</button>",
+        "<button aria-label='Close dialog'><X /></button>",
+        "<button aria-pressed='true'>Bold</button>"
+      ],
+      "bad": [
+        "<div onclick='save()'>Save</div>",
+        "<button><Icon /></button>",
+        "<button disabled>Submit</button>"
+      ]
+    },
+    "testingChecklist": [
+      "Can reach button with Tab key",
+      "Can activate with Enter and Space",
+      "Focus indicator is visible",
+      "Screen reader announces button role and label",
+      "Visual text is clear and descriptive"
+    ],
+    "commonMistakes": [
+      "Using div with onClick instead of button",
+      "Icon-only buttons without aria-label",
+      "Poor focus indicator contrast",
+      "Vague button text like 'Click here' or 'Submit'"
+    ],
+    "resources": [
+      {
+        "title": "ARIA Button Pattern",
+        "url": "https://www.w3.org/WAI/ARIA/apg/patterns/button/"
+      },
+      {
+        "title": "WebAIM: Keyboard Accessibility",
+        "url": "https://webaim.org/techniques/keyboard/"
+      }
+    ],
+    "tags": ["button", "interactive", "keyboard", "focus"],
+    "updatedAt": "2025-12-15T00:00:00Z"
+  },
+  {
+    "objectID": "accessibility-input-pattern",
+    "componentName": "Input",
+    "category": "Forms",
+    "wcagCriteria": ["1.3.1", "2.4.6", "3.3.2", "4.1.2"],
+    "wcagLevel": "A",
+    "description": "Form inputs require proper labels and error handling",
+    "requirements": [
+      "Every input must have an associated <label>",
+      "Label must be visible (not placeholder-only)",
+      "Error messages must be programmatically associated",
+      "Required fields should be clearly indicated",
+      "Use appropriate input types (email, tel, etc.)",
+      "Provide clear instructions before the form"
+    ],
+    "ariaAttributes": {
+      "required": ["label via <label> or aria-label"],
+      "optional": ["aria-describedby", "aria-invalid", "aria-required"]
+    },
+    "keyboardSupport": {
+      "Tab": "Moves focus to input",
+      "Typing": "Enters text"
+    },
+    "examples": {
+      "good": [
+        "<label for='email'>Email Address</label><input id='email' type='email' />",
+        "<input aria-label='Search' type='search' />",
+        "<input aria-describedby='email-error' aria-invalid='true' /><span id='email-error'>Invalid email format</span>"
+      ],
+      "bad": [
+        "<input placeholder='Email' />",
+        "<input type='text' />",
+        "<label>Email</label><input />"
+      ]
+    },
+    "testingChecklist": [
+      "Every input has visible label",
+      "Label and input are programmatically associated",
+      "Error messages appear and are announced",
+      "Required fields are indicated",
+      "Appropriate input type is used"
+    ],
+    "commonMistakes": [
+      "Using placeholder as label",
+      "Missing for/id association",
+      "Error messages not programmatically linked",
+      "Generic 'text' type for email/phone fields"
+    ],
+    "resources": [
+      {
+        "title": "WebAIM: Creating Accessible Forms",
+        "url": "https://webaim.org/techniques/forms/"
+      }
+    ],
+    "tags": ["input", "form", "label", "validation"],
+    "updatedAt": "2025-12-15T00:00:00Z"
+  },
+  {
+    "objectID": "accessibility-modal-pattern",
+    "componentName": "Modal",
+    "category": "Overlay",
+    "wcagCriteria": ["2.1.2", "2.4.3", "4.1.2"],
+    "wcagLevel": "A",
+    "description": "Modals must trap focus and be dismissible",
+    "requirements": [
+      "Focus must move to modal when opened",
+      "Focus must be trapped within modal",
+      "Must be closeable with Escape key",
+      "Focus must return to trigger element on close",
+      "Must have role='dialog' or role='alertdialog'",
+      "Must have aria-labelledby or aria-label"
+    ],
+    "ariaAttributes": {
+      "required": ["role='dialog'", "aria-labelledby or aria-label", "aria-modal='true'"],
+      "optional": ["aria-describedby"]
+    },
+    "keyboardSupport": {
+      "Escape": "Closes the modal",
+      "Tab": "Moves focus within modal (trapped)"
+    },
+    "examples": {
+      "good": [
+        "<div role='dialog' aria-labelledby='dialog-title' aria-modal='true'><h2 id='dialog-title'>Confirm Delete</h2>...</div>"
+      ],
+      "bad": [
+        "<div class='modal'>...</div>",
+        "<div role='dialog'>...</div>"
+      ]
+    },
+    "testingChecklist": [
+      "Focus moves into modal on open",
+      "Tab key stays within modal",
+      "Escape closes modal",
+      "Focus returns to trigger on close",
+      "Modal has accessible name"
+    ],
+    "commonMistakes": [
+      "Not trapping focus",
+      "No Escape key handler",
+      "Missing aria-modal",
+      "Focus not returned on close"
+    ],
+    "tags": ["modal", "dialog", "overlay", "focus-trap"],
+    "updatedAt": "2025-12-15T00:00:00Z"
+  }
+]
