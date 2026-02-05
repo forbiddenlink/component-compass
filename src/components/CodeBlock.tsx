@@ -6,15 +6,34 @@ interface CodeBlockProps {
     code: string;
     language?: string;
     filename?: string;
+    onAction?: (query: string) => void;
 }
 
-export function CodeBlock({ code, language = 'typescript', filename }: CodeBlockProps) {
+// Try to extract a component name from the code
+function extractComponentName(code: string): string | null {
+    const match = code.match(/\b(Button|Input|Card|Dialog|Select|Checkbox|Badge|Toast|Accordion|Alert)\b/);
+    return match ? match[1] : null;
+}
+
+export function CodeBlock({ code, language = 'typescript', filename, onAction }: CodeBlockProps) {
     const [copied, setCopied] = useState(false);
+    const componentName = extractComponentName(code);
 
     const handleCopy = () => {
         navigator.clipboard.writeText(code);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+    };
+
+    const handleAction = (action: string) => {
+        if (!onAction || !componentName) return;
+        const queries: Record<string, string> = {
+            docs: `Show me the ${componentName} component documentation`,
+            a11y: `What are the accessibility guidelines for ${componentName}?`,
+            variants: `What variants does ${componentName} have?`,
+            code: `Show me code examples for ${componentName}`,
+        };
+        onAction(queries[action] || `Tell me about ${componentName}`);
     };
 
     return (
@@ -87,40 +106,38 @@ export function CodeBlock({ code, language = 'typescript', filename }: CodeBlock
             </Highlight>
 
             {/* Quick Actions */}
-            <div className="px-3 py-2 md:px-5 md:py-3 bg-ink/5 border-t-2 border-ink/10 flex gap-1.5 md:gap-2 flex-wrap">
-                <button
-                    type="button"
-                    className="text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 bg-ocean text-white rounded hover:bg-ink transition-all font-semibold flex items-center gap-1 md:gap-1.5"
-                    title="View component documentation"
-                    aria-label="View component documentation"
-                >
-                    View Docs
-                </button>
-                <button
-                    type="button"
-                    className="text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 bg-terrain text-white rounded hover:bg-ink transition-all font-semibold flex items-center gap-1 md:gap-1.5"
-                    title="Check accessibility compliance"
-                    aria-label="Check accessibility compliance"
-                >
-                    Check A11y
-                </button>
-                <button
-                    type="button"
-                    className="text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 bg-gold text-ink rounded hover:bg-compass hover:text-white transition-all font-semibold flex items-center gap-1 md:gap-1.5"
-                    title="Explore component variants"
-                    aria-label="Explore component variants"
-                >
-                    Variants
-                </button>
-                <button
-                    type="button"
-                    className="text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 bg-compass text-white rounded hover:bg-compass-dark transition-all font-semibold flex items-center gap-1 md:gap-1.5"
-                    title="View in Storybook"
-                    aria-label="View in Storybook"
-                >
-                    Storybook
-                </button>
-            </div>
+            {componentName && (
+                <div className="px-3 py-2 md:px-5 md:py-3 bg-ink/5 border-t-2 border-ink/10 flex gap-1.5 md:gap-2 flex-wrap">
+                    <button
+                        type="button"
+                        onClick={() => handleAction('docs')}
+                        className="text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 bg-ocean text-white rounded hover:bg-ink transition-all font-semibold flex items-center gap-1 md:gap-1.5"
+                    >
+                        View Docs
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => handleAction('a11y')}
+                        className="text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 bg-terrain text-white rounded hover:bg-ink transition-all font-semibold flex items-center gap-1 md:gap-1.5"
+                    >
+                        Check A11y
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => handleAction('variants')}
+                        className="text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 bg-gold text-ink rounded hover:bg-compass hover:text-white transition-all font-semibold flex items-center gap-1 md:gap-1.5"
+                    >
+                        Variants
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => handleAction('code')}
+                        className="text-[10px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 bg-compass text-white rounded hover:bg-compass-dark transition-all font-semibold flex items-center gap-1 md:gap-1.5"
+                    >
+                        More Examples
+                    </button>
+                </div>
+            )}
 
             {/* Bottom decorative corners (hidden on mobile) */}
             <div className="hidden md:block absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-compass"></div>

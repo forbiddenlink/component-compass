@@ -380,3 +380,37 @@ export const SettingsIcon = ({ className = "w-5 h-5" }: IconProps) => (
     <path d="M16 7L16.5 6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
   </svg>
 );
+
+// ============================================================
+// FEEDBACK
+// ============================================================
+
+/** Vintage thumbs-up — cartographic approval mark */
+export const ThumbUpIcon = ({ className = "w-5 h-5" }: IconProps) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Thumb */}
+    <path d="M7 22V11L10 2C10 2 11.5 2 12 4C12.5 6 12 8 12 8H19C20.1 8 21 9 20.8 10.1L19.3 19.1C19.1 20.2 18.2 21 17.1 21H7Z"
+      stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    {/* Palm side */}
+    <path d="M7 11H4C3.45 11 3 11.45 3 12V21C3 21.55 3.45 22 4 22H7"
+      stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    {/* Finger creases */}
+    <path d="M12 8V11" stroke="currentColor" strokeWidth="0.75" strokeLinecap="round" />
+    <path d="M15 8V11" stroke="currentColor" strokeWidth="0.75" strokeLinecap="round" />
+  </svg>
+);
+
+/** Vintage thumbs-down — cartographic disapproval mark */
+export const ThumbDownIcon = ({ className = "w-5 h-5" }: IconProps) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Thumb */}
+    <path d="M17 2V13L14 22C14 22 12.5 22 12 20C11.5 18 12 16 12 16H5C3.9 16 3 15 3.2 13.9L4.7 4.9C4.9 3.8 5.8 3 6.9 3H17Z"
+      stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    {/* Palm side */}
+    <path d="M17 13H20C20.55 13 21 12.55 21 12V3C21 2.45 20.55 2 20 2H17"
+      stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    {/* Finger creases */}
+    <path d="M12 16V13" stroke="currentColor" strokeWidth="0.75" strokeLinecap="round" />
+    <path d="M9 16V13" stroke="currentColor" strokeWidth="0.75" strokeLinecap="round" />
+  </svg>
+);

@@ -17,13 +17,11 @@ import {
     AlertCircleIcon as AlertCircle,
 } from './Icons';
 import { ALGOLIA_STREAM_URL, ALGOLIA_HEADERS, agentClient } from '../services/algolia';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { cn } from '../lib/utils';
 import { CodeBlock } from './CodeBlock';
-
-function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
-}
+import { FeedbackButtons } from './FeedbackButtons';
+import { ComponentCard, KNOWN_COMPONENTS } from './ComponentCard';
+import { trackMessageView, trackSuggestionClick } from '../services/insights';
 
 // --- Types ---
 
@@ -227,7 +225,11 @@ const ToastNotification = ({ message, type, onClose }: { message: string; type: 
         <div className={`fixed top-4 right-4 md:top-24 md:right-8 left-4 md:left-auto ${colors[type]} text-white px-4 py-3 md:px-5 rounded shadow-xl border-2 z-50 animate-in slide-in-from-right-4 flex items-center gap-3`}>
             {icons[type]}
             <span className="font-semibold text-sm md:text-base flex-1">{message}</span>
-            <button onClick={onClose} className="hover:opacity-70 transition-opacity flex-shrink-0">
+            <button 
+                onClick={onClose} 
+                className="hover:opacity-70 transition-opacity flex-shrink-0"
+                aria-label="Close notification"
+            >
                 <X className="w-4 h-4" />
             </button>
         </div>
@@ -400,18 +402,38 @@ export function ChatInterface() {
                                 : m
                         );
                     });
+
+                    trackMessageView([lastStreamMsg.id]);
                 }
             }
         }
     }, [chatStatus, streamMessages, useStreaming]);
 
-    // Handle stream errors
+    // Handle stream errors — switch to fallback and retry only if no content was streamed
     useEffect(() => {
         if (streamError && useStreaming) {
-            console.warn('Streaming failed, switching to non-streaming mode for this session.');
             setUseStreaming(false);
+            // Only retry via fallback if the stream didn't already produce content
+            const lastMsg = displayMessages[displayMessages.length - 1];
+            if (!lastMsg || lastMsg.role !== 'assistant') {
+                console.warn('Streaming failed with no content, retrying via fallback.');
+                const lastUserMsg = [...displayMessages].reverse().find(m => m.role === 'user');
+                if (lastUserMsg) {
+                    handleFallbackSend(lastUserMsg.content, null);
+                }
+            } else {
+                // Stream produced partial content — add sources/suggestions to it
+                const text = lastMsg.content;
+                if (text && !lastMsg.sources) {
+                    const sources = getSourceBadges(text);
+                    const suggestions = generateSuggestions(text);
+                    setDisplayMessages(prev => prev.map(m =>
+                        m.id === lastMsg.id ? { ...m, sources, suggestions } : m
+                    ));
+                }
+            }
         }
-    }, [streamError, useStreaming]);
+    }, [streamError, useStreaming]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -543,7 +565,7 @@ export function ChatInterface() {
             setSessionStats(prev => ({
                 ...prev,
                 queries: prev.queries + 1,
-                componentsFound: prev.componentsFound + Math.floor(Math.random() * 5) + 1,
+                componentsFound: prev.componentsFound + (messageContent.match(/\b(Button|Card|Modal|Input|Select|Dialog|Checkbox|Badge|Toast|Accordion|Alert|Nav|Tab)\b/gi) || [messageContent]).length,
                 screenshotsAnalyzed: file?.type.startsWith('image/') ? prev.screenshotsAnalyzed + 1 : prev.screenshotsAnalyzed
             }));
         } catch (error) {
@@ -600,7 +622,7 @@ export function ChatInterface() {
                 setSessionStats(prev => ({
                     ...prev,
                     queries: prev.queries + 1,
-                    componentsFound: prev.componentsFound + Math.floor(Math.random() * 5) + 1,
+                    componentsFound: prev.componentsFound + (messageContent.match(/\b(Button|Card|Modal|Input|Select|Dialog|Checkbox|Badge|Toast|Accordion|Alert|Nav|Tab)\b/gi) || [messageContent]).length,
                     screenshotsAnalyzed: currentFile?.type.startsWith('image/') ? prev.screenshotsAnalyzed + 1 : prev.screenshotsAnalyzed
                 }));
             } catch (error) {
@@ -628,6 +650,7 @@ export function ChatInterface() {
     };
 
     const handleSuggestionSelect = (query: string) => {
+        trackSuggestionClick(query, []);
         setInput(query);
         setTimeout(() => {
             const textarea = document.querySelector('textarea');
@@ -640,6 +663,17 @@ export function ChatInterface() {
                 textarea.dispatchEvent(enterEvent);
             }
         }, 150);
+    };
+
+    const detectComponents = (text: string): string[] => {
+        const found: string[] = [];
+        for (const name of KNOWN_COMPONENTS) {
+            const regex = new RegExp(`\\b${name}\\b`, 'i');
+            if (regex.test(text)) {
+                found.push(name);
+            }
+        }
+        return found.slice(0, 2); // max 2 per message
     };
 
     return (
@@ -922,7 +956,7 @@ export function ChatInterface() {
                                                 const isInline = !match && !codeString.includes('\n');
 
                                                 if (!isInline && match) {
-                                                    return <CodeBlock code={codeString} language={match[1]} />;
+                                                    return <CodeBlock code={codeString} language={match[1]} onAction={handleSuggestionSelect} />;
                                                 }
 
                                                 return (
@@ -954,6 +988,29 @@ export function ChatInterface() {
                                         {msg.content}
                                     </ReactMarkdown>
                                 </div>
+
+                                {/* Feedback Buttons */}
+                                {msg.role === 'assistant' && !(isStreaming && index === displayMessages.length - 1) && (
+                                    <FeedbackButtons messageId={msg.id} />
+                                )}
+
+                                {/* Component Cards */}
+                                {msg.role === 'assistant' && !(isStreaming && index === displayMessages.length - 1) && (
+                                    (() => {
+                                        const detected = detectComponents(msg.content);
+                                        return detected.length > 0 ? (
+                                            <div className="mt-2">
+                                                {detected.map(name => (
+                                                    <ComponentCard
+                                                        key={name}
+                                                        componentName={name}
+                                                        onAction={handleSuggestionSelect}
+                                                    />
+                                                ))}
+                                            </div>
+                                        ) : null;
+                                    })()
+                                )}
 
                                 {/* Source Badges */}
                                 {msg.role === 'assistant' && msg.sources && msg.sources.length > 0 && (
@@ -1034,6 +1091,7 @@ export function ChatInterface() {
                             <button
                                 onClick={handleRemoveFile}
                                 className="text-compass hover:text-compass-dark text-sm font-bold transition-colors flex-shrink-0 ml-2"
+                                aria-label="Remove attached file"
                             >
                                 <X className="w-4 h-4" />
                             </button>
