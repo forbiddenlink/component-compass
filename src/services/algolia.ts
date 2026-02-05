@@ -1,33 +1,15 @@
 
 // Algolia Agent Studio Client
-// Supports both non-streaming (fallback) and streaming (via AI SDK) modes
+// Supports both streaming (via AI SDK) and non-streaming (SSE fallback) modes
 
-// --- Types ---
-
-interface AgentMessagePart {
-    text: string;
-}
-
-interface AgentMessage {
-    role: 'user' | 'assistant' | 'system';
-    parts: AgentMessagePart[];
-}
-
-interface AgentCompletionRequest {
-    messages: AgentMessage[];
-    sessionId?: string;
-    context?: Record<string, unknown>;
-}
+import { getEnv } from '../lib/env';
 
 // --- Environment ---
 
-const appId = import.meta.env.VITE_ALGOLIA_APP_ID || '';
-const apiKey = import.meta.env.VITE_ALGOLIA_SEARCH_API_KEY || '';
-const agentId = import.meta.env.VITE_ALGOLIA_AGENT_ID || '';
-
-if (!appId || !apiKey || !agentId) {
-    console.warn('Algolia credentials not configured. Please set environment variables.');
-}
+const env = getEnv();
+const appId = env.VITE_ALGOLIA_APP_ID;
+const apiKey = env.VITE_ALGOLIA_SEARCH_API_KEY;
+const agentId = env.VITE_ALGOLIA_AGENT_ID;
 
 // --- Streaming transport config (for useChat from @ai-sdk/react) ---
 
@@ -52,22 +34,17 @@ export class AgentStudioClient {
         this.endpoint = `https://${appId}.algolia.net/agent-studio/1/agents/${agentId}/completions?compatibilityMode=ai-sdk-5`;
     }
 
-    async sendMessage(
-        message: string,
-        context?: Record<string, unknown>
-    ): Promise<string> {
+    async sendMessage(message: string): Promise<string> {
         try {
-            const requestBody: AgentCompletionRequest = {
+            const requestBody: Record<string, unknown> = {
                 messages: [
                     {
                         role: 'user',
-                        parts: [{ text: message }],
+                        parts: [{ type: 'text', text: message }],
                     },
                 ],
-                context: context || {},
             };
 
-            // Include session ID if we have one
             if (this.sessionId) {
                 requestBody.sessionId = this.sessionId;
             }
@@ -87,35 +64,67 @@ export class AgentStudioClient {
                 throw new Error(`Agent Studio error (${response.status}): ${errorText}`);
             }
 
-            const data = await response.json();
+            // The endpoint with compatibilityMode=ai-sdk-5 returns SSE format,
+            // not JSON. Each line is prefixed with "data: " followed by a JSON
+            // payload (or "[DONE]" to signal the end of the stream).
+            const rawText = await response.text();
+            const lines = rawText.split('\n');
 
-            // Store session ID for context continuity
-            if (data.sessionId) {
-                this.sessionId = data.sessionId;
-            }
+            let textContent = '';
 
-            // The response format uses parts: [{type: "step-start"}, {type: "text", text: "..."}]
-            if (data.messages && Array.isArray(data.messages)) {
-                const assistantMsg = data.messages.find(
-                    (m: { role: string }) => m.role === 'assistant'
-                );
-                if (assistantMsg?.parts) {
-                    return assistantMsg.parts
-                        .filter((p: { type: string; text?: string }) => p.type === 'text' && p.text)
-                        .map((p: { text: string }) => p.text)
-                        .join('\n\n');
+            for (const line of lines) {
+                const trimmed = line.trim();
+
+                // Skip empty lines and the terminal [DONE] marker
+                if (!trimmed || !trimmed.startsWith('data: ')) {
+                    continue;
+                }
+
+                const payload = trimmed.slice('data: '.length);
+
+                // The final SSE message is "data: [DONE]"
+                if (payload === '[DONE]') {
+                    break;
+                }
+
+                let event: { type: string; messageId?: string; delta?: string; errorText?: string };
+                try {
+                    event = JSON.parse(payload);
+                } catch {
+                    // Skip malformed lines
+                    continue;
+                }
+
+                // Store session context from the start event
+                if (event.type === 'start' && event.messageId) {
+                    // messageId format is "alg_msg_xxx" -- not a session ID,
+                    // but we preserve sessionId logic if the API ever adds it.
+                }
+
+                // Handle error events — return partial text if we have some
+                if (event.type === 'error') {
+                    if (textContent) {
+                        // Got partial response before error (e.g. max_output_tokens)
+                        // Return what we have rather than failing completely
+                        console.warn('Agent Studio: partial response due to:', event.errorText);
+                        return textContent;
+                    }
+                    throw new Error(
+                        `Agent Studio error: ${event.errorText || 'Unknown error from agent'}`
+                    );
+                }
+
+                // Accumulate text from text-delta events
+                if (event.type === 'text-delta' && event.delta) {
+                    textContent += event.delta;
                 }
             }
 
-            // Fallback: try older content format
-            if (data.content && Array.isArray(data.content)) {
-                return data.content
-                    .filter((item: { type: string }) => item.type === 'text')
-                    .map((item: { value?: string; text?: string }) => item.value || item.text)
-                    .join('\n\n');
+            if (!textContent) {
+                return 'Sorry, I received an empty response from the agent.';
             }
 
-            return 'Sorry, I received an unexpected response format.';
+            return textContent;
         } catch (error) {
             console.error('Agent Studio API error:', error);
             throw error;

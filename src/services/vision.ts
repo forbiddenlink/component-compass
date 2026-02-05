@@ -3,6 +3,8 @@
  * and extracting component descriptions
  */
 
+import { hasOpenAIKey, getEnv } from '../lib/env';
+
 interface VisionAnalysisResult {
   components: Array<{
     name: string;
@@ -14,14 +16,17 @@ interface VisionAnalysisResult {
   suggestions: string[];
 }
 
-const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY || '';
-
 export async function analyzeDesignScreenshot(
   imageUrl: string
 ): Promise<VisionAnalysisResult> {
-  if (!OPENAI_API_KEY) {
-    throw new Error('OpenAI API key not configured');
+  if (!hasOpenAIKey()) {
+    throw new Error(
+      'OpenAI API key not configured. Screenshot analysis requires VITE_OPENAI_API_KEY in your .env file.'
+    );
   }
+
+  const env = getEnv();
+  const OPENAI_API_KEY = env.VITE_OPENAI_API_KEY!;
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
