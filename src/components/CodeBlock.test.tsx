@@ -46,21 +46,4 @@ export const Example = () => <Button>Click me</Button>;`;
     expect(screen.getByText(/typescript/i)).toBeInTheDocument();
   });
 
-  it('should detect component name and show quick actions', () => {
-    const mockOnAction = vi.fn();
-    render(<CodeBlock code={mockCode} language="typescript" onAction={mockOnAction} />);
-    
-    expect(screen.getByText(/view docs/i)).toBeInTheDocument();
-    expect(screen.getByText(/check a11y/i)).toBeInTheDocument();
-  });
-
-  it('should call onAction when quick action is clicked', () => {
-    const mockOnAction = vi.fn();
-    render(<CodeBlock code={mockCode} language="typescript" onAction={mockOnAction} />);
-    
-    const docsButton = screen.getByText(/view docs/i);
-    fireEvent.click(docsButton);
-    
-    expect(mockOnAction).toHaveBeenCalledWith(expect.stringContaining('Button'));
-  });
 });

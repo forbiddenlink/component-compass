@@ -30,7 +30,7 @@ export function FeedbackButtons({ messageId }: FeedbackButtonsProps) {
       <button
         onClick={() => handleFeedback('helpful')}
         className={cn(
-          'p-1.5 rounded-lg transition-all duration-200 border',
+          'p-1.5 rounded-lg transition-all duration-200 border focus-ring',
           feedback === 'helpful'
             ? 'bg-terrain/20 border-terrain text-terrain'
             : 'border-transparent text-ink/30 hover:text-ink/50 hover:bg-parchment/50'
@@ -43,7 +43,7 @@ export function FeedbackButtons({ messageId }: FeedbackButtonsProps) {
       <button
         onClick={() => handleFeedback('unhelpful')}
         className={cn(
-          'p-1.5 rounded-lg transition-all duration-200 border',
+          'p-1.5 rounded-lg transition-all duration-200 border focus-ring',
           feedback === 'unhelpful'
             ? 'bg-compass/10 border-compass text-compass'
             : 'border-transparent text-ink/30 hover:text-ink/50 hover:bg-parchment/50'

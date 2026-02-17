@@ -178,30 +178,6 @@ function extractMessageText(msg: UIMessage): string {
         .join('\n\n');
 }
 
-// Journey Connector Component
-const JourneyConnector = () => (
-    <svg className="absolute left-1/2 -translate-x-1/2 -top-6 w-1 h-6 overflow-visible pointer-events-none" aria-hidden="true">
-        <line
-            x1="0"
-            y1="0"
-            x2="0"
-            y2="24"
-            stroke="currentColor"
-            strokeWidth="1"
-            className="journey-path text-compass opacity-30"
-        />
-    </svg>
-);
-
-// Typing Indicator Component
-const TypingIndicator = () => (
-    <div className="flex gap-1.5 p-3">
-        <div className="w-2 h-2 bg-compass rounded-full" style={{ animation: 'bounce-typing 1.4s infinite', animationDelay: '0ms' }}></div>
-        <div className="w-2 h-2 bg-compass rounded-full" style={{ animation: 'bounce-typing 1.4s infinite', animationDelay: '150ms' }}></div>
-        <div className="w-2 h-2 bg-compass rounded-full" style={{ animation: 'bounce-typing 1.4s infinite', animationDelay: '300ms' }}></div>
-    </div>
-);
-
 // Toast Component
 const ToastNotification = ({ message, type, onClose }: { message: string; type: 'success' | 'error' | 'info'; onClose: () => void }) => {
     useEffect(() => {
@@ -238,17 +214,13 @@ const ToastNotification = ({ message, type, onClose }: { message: string; type: 
 
 // Source Badges Component
 const SourceBadges = ({ sources }: { sources: SourceBadge[] }) => (
-    <div className="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-ink/10">
-        <span className="text-[10px] text-terrain/60 uppercase tracking-wider font-semibold self-center mr-1">Sources:</span>
+    <div className="flex flex-wrap gap-1.5 mt-4 pt-3 border-t border-ink/8">
+        <span className="text-caption text-muted uppercase tracking-wider self-center mr-1">Sources:</span>
         {sources.map((source) => (
             <span
                 key={source.name}
-                className={cn(
-                    "inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold border tracking-wide",
-                    source.bgColor, source.color, source.borderColor
-                )}
+                className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-ink/5 text-caption text-ink/70 border-l-2 border-ink/20"
             >
-                <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60"></span>
                 {source.name}
             </span>
         ))}
@@ -257,15 +229,15 @@ const SourceBadges = ({ sources }: { sources: SourceBadge[] }) => (
 
 // Follow-up Suggestion Chips Component
 const SuggestionChips = ({ suggestions, onSelect }: { suggestions: string[]; onSelect: (query: string) => void }) => (
-    <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-ink/10">
-        <span className="text-[10px] text-terrain/60 uppercase tracking-wider font-semibold self-center mr-1 w-full mb-1">Follow up:</span>
+    <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-ink/8">
+        <span className="text-caption text-muted uppercase tracking-wider self-center mr-1 w-full mb-1">Follow up:</span>
         {suggestions.map((suggestion) => (
             <button
                 key={suggestion}
                 onClick={() => onSelect(suggestion)}
-                className="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-parchment border-2 border-gold/40 rounded text-xs font-semibold text-ink hover:border-compass hover:bg-compass/10 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+                className="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-ink/15 rounded-lg text-small text-ink hover:border-compass hover:bg-compass/5 transition-colors focus-ring"
             >
-                <Navigation className="w-3 h-3 text-compass opacity-60 group-hover:opacity-100 transition-opacity" />
+                <Navigation className="w-3.5 h-3.5 text-compass/60 group-hover:text-compass transition-colors" />
                 <span className="truncate max-w-[200px]">{suggestion}</span>
             </button>
         ))}
@@ -693,104 +665,92 @@ export function ChatInterface() {
             </div>
 
             {/* Header */}
-            <header className="bg-warm-white border-b-2 border-ink/20 px-4 py-3 md:px-6 md:py-4 shadow-lg relative z-10 map-texture safe-pt">
-                {/* Decorative corner elements (hidden on small screens) */}
-                <div className="hidden md:block absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-compass"></div>
-                <div className="hidden md:block absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-compass"></div>
-
+            <header className="bg-warm-white border-b border-ink/15 px-4 py-4 md:px-6 shadow-sm relative z-10 safe-pt">
                 <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 md:gap-4">
-                    <div className="flex items-center gap-2.5 md:gap-4 flex-shrink-0 min-w-0">
+                    <div className="flex items-center gap-3 md:gap-4 flex-shrink-0 min-w-0">
                         <div
                             className={cn(
-                                "relative w-10 h-10 md:w-14 md:h-14 wax-seal rounded-full flex items-center justify-center shadow-lg ring-2 ring-gold/30 transition-all duration-300 flex-shrink-0",
-                                isLoading && "animate-pulse scale-110"
+                                "relative w-9 h-9 md:w-11 md:h-11 wax-seal rounded-full flex items-center justify-center flex-shrink-0 transition-transform",
+                                isLoading && "scale-105"
                             )}
                             title={isLoading ? "Charting territories..." : "ComponentCompass"}
                         >
                             <Compass
                                 className={cn(
-                                    "w-5 h-5 md:w-7 md:h-7 text-white transition-transform duration-500",
-                                    isLoading ? "compass-spin" : "rotate-0"
+                                    "w-4.5 h-4.5 md:w-5 md:h-5 text-white transition-transform",
+                                    isLoading && "compass-spin"
                                 )}
                             />
-                            {isLoading && (
-                                <div className="absolute inset-0 rounded-full border-2 border-gold animate-ping"></div>
-                            )}
                         </div>
                         <div className="min-w-0">
-                            <h1 className="text-lg md:text-3xl font-bold text-ink tracking-tight font-display truncate">
+                            <h1 className="text-h1 text-ink tracking-tight font-display truncate">
                                 ComponentCompass
                             </h1>
-                            <p className="text-[10px] md:text-xs text-terrain font-medium tracking-wide uppercase">
+                            <p className="text-caption text-muted tracking-wide uppercase">
                                 Navigate Your Design System
                             </p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5 md:gap-3 flex-shrink-0">
+                    <div className="flex items-center gap-2 md:gap-2.5 flex-shrink-0">
                         <button
                             onClick={() => setShowStats(!showStats)}
-                            className="px-2.5 py-1.5 md:px-4 md:py-2 bg-ocean text-white text-xs rounded font-bold border-2 border-ocean-dark shadow-md hover:bg-ink transition-all hover:-translate-y-0.5"
+                            className="px-3 py-2 text-small text-ink border border-ink/20 rounded-lg hover:bg-ink/5 transition-colors focus-ring"
                             title="Toggle Session Statistics"
                         >
-                            <Map className="w-3 h-3 inline mr-1" />
-                            <span className="hidden sm:inline">Session Map</span>
-                            <span className="sm:hidden">Stats</span>
+                            <Map className="w-4 h-4 inline mr-1.5 opacity-60" />
+                            <span className="hidden sm:inline">Stats</span>
                         </button>
                         {displayMessages.length > 0 && (
                             <>
                                 <button
                                     onClick={exportConversation}
-                                    className="px-2.5 py-1.5 md:px-4 md:py-2 bg-terrain text-white text-xs rounded font-bold border-2 border-terrain-dark shadow-md hover:bg-ink transition-all hover:-translate-y-0.5"
-                                    title="Export Conversation as Markdown"
+                                    className="px-3 py-2 text-small text-ink border border-ink/20 rounded-lg hover:bg-ink/5 transition-colors focus-ring"
+                                    title="Export Conversation"
                                 >
-                                    <Download className="w-3 h-3 inline mr-1" />
+                                    <Download className="w-4 h-4 inline mr-1.5 opacity-60" />
                                     <span className="hidden sm:inline">Export</span>
                                 </button>
                                 <button
                                     onClick={handleNewConversation}
-                                    className="px-2.5 py-1.5 md:px-4 md:py-2 bg-compass text-white text-xs rounded font-bold border-2 border-compass-dark shadow-md hover:bg-compass-dark transition-all hover:-translate-y-0.5"
+                                    className="px-3 py-2 text-small bg-compass text-white rounded-lg hover:bg-compass-dark transition-colors shadow-sm focus-ring"
                                     title="New Conversation"
                                 >
-                                    <RotateCw className="w-3 h-3 inline mr-1" />
-                                    <span className="hidden sm:inline">New Route</span>
-                                    <span className="sm:hidden">New</span>
+                                    <RotateCw className="w-4 h-4 inline mr-1.5" />
+                                    <span className="hidden sm:inline">New</span>
                                 </button>
                             </>
                         )}
-                        <span className="hidden lg:inline-flex px-4 py-2 text-terrain/60 text-[10px] tracking-wider uppercase font-semibold whitespace-nowrap">
-                            by Elizabeth Stein
-                        </span>
                     </div>
                 </div>
 
                 {/* Session Statistics Panel */}
                 {showStats && (
-                    <div className="max-w-7xl mx-auto mt-3 md:mt-4 p-3 md:p-4 bg-white/90 border-2 border-ink/20 rounded shadow-lg animate-in slide-in-from-top-2">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center">
-                            <div className="md:border-r-2 border-ink/10">
-                                <div className="text-xl md:text-3xl font-bold text-compass font-display">
+                    <div className="max-w-7xl mx-auto mt-4 p-4 bg-white border border-ink/10 rounded-lg shadow-sm animate-in slide-in-from-top-2">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            <div>
+                                <div className="text-h2 text-compass font-display">
                                     {sessionStats.queries}
                                 </div>
-                                <div className="text-[10px] md:text-xs text-terrain uppercase tracking-wide font-semibold">Queries</div>
-                            </div>
-                            <div className="md:border-r-2 border-ink/10">
-                                <div className="text-xl md:text-3xl font-bold text-ocean font-display">
-                                    {sessionStats.indicesSearched}
-                                </div>
-                                <div className="text-[10px] md:text-xs text-terrain uppercase tracking-wide font-semibold">Indices</div>
-                            </div>
-                            <div className="md:border-r-2 border-ink/10">
-                                <div className="text-xl md:text-3xl font-bold text-terrain font-display">
-                                    {sessionStats.componentsFound}
-                                </div>
-                                <div className="text-[10px] md:text-xs text-terrain uppercase tracking-wide font-semibold">Components</div>
+                                <div className="text-caption text-muted uppercase tracking-wide">Queries</div>
                             </div>
                             <div>
-                                <div className="text-xl md:text-3xl font-bold text-gold font-display">
+                                <div className="text-h2 text-ocean font-display">
+                                    {sessionStats.indicesSearched}
+                                </div>
+                                <div className="text-caption text-muted uppercase tracking-wide">Indices</div>
+                            </div>
+                            <div>
+                                <div className="text-h2 text-terrain font-display">
+                                    {sessionStats.componentsFound}
+                                </div>
+                                <div className="text-caption text-muted uppercase tracking-wide">Components</div>
+                            </div>
+                            <div>
+                                <div className="text-h2 text-gold font-display">
                                     {sessionStats.screenshotsAnalyzed}
                                 </div>
-                                <div className="text-[10px] md:text-xs text-terrain uppercase tracking-wide font-semibold">Screenshots</div>
+                                <div className="text-caption text-muted uppercase tracking-wide">Screenshots</div>
                             </div>
                         </div>
                     </div>
@@ -802,92 +762,51 @@ export function ChatInterface() {
                 <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
                     {/* Welcome Screen */}
                     {displayMessages.length === 0 && (
-                        <div className="flex flex-col items-center justify-center min-h-[calc(100dvh-220px)] md:min-h-[500px] text-center animate-in fade-in duration-700 px-2">
-                            <div className="relative w-20 h-20 md:w-32 md:h-32 wax-seal rounded-full mb-6 md:mb-10 flex items-center justify-center shadow-2xl ring-4 ring-gold/20 animate-in">
-                                <Compass className="w-10 h-10 md:w-16 md:h-16 text-white" />
-
-                                {/* Animated rings */}
-                                <div className="absolute inset-0 rounded-full border-4 border-gold/30 animate-ping" style={{ animationDuration: '2s' }}></div>
-                                <div className="absolute inset-0 rounded-full border-2 border-gold/20 animate-ping hidden md:block" style={{ animationDuration: '3s', animationDelay: '0.5s' }}></div>
+                        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center animate-in fade-in px-4">
+                            <div className="relative w-16 h-16 md:w-20 md:h-20 wax-seal rounded-full mb-6 flex items-center justify-center">
+                                <Compass className="w-8 h-8 md:w-10 md:h-10 text-white" />
                             </div>
-                            <h2 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 text-ink tracking-tight font-display">
+                            <h2 className="text-display text-ink tracking-tight font-display mb-3">
                                 Chart Your Course
                             </h2>
-                            <p className="max-w-2xl text-terrain mb-3 md:mb-4 text-base md:text-lg leading-relaxed font-medium px-2">
-                                Navigate the vast territories of your design system with an intelligent AI cartographer.
+                            <p className="max-w-xl text-body text-terrain mb-2">
+                                Navigate your design system with an intelligent AI assistant.
                             </p>
-                            <p className="max-w-xl text-ink/60 mb-8 md:mb-12 text-xs md:text-sm italic px-2">
-                                Discover components, explore implementations, and map accessibility standards across 7 specialized indices.
+                            <p className="max-w-lg text-small text-muted mb-10">
+                                Discover components, explore implementations, and find accessibility guidelines.
                             </p>
 
                             {/* Suggested Prompts */}
-                            <div className="w-full max-w-4xl px-1 md:px-0">
-                                <div className="flex items-center justify-center gap-2 mb-4 md:mb-6">
-                                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-ink/20 to-transparent"></div>
-                                    <p className="text-[10px] md:text-sm font-bold text-ink uppercase tracking-widest px-2 md:px-4 whitespace-nowrap">
-                                        Begin Your Expedition
-                                    </p>
-                                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-ink/20 to-transparent"></div>
-                                </div>
+                            <div className="w-full max-w-3xl">
+                                <p className="text-caption text-muted uppercase tracking-wider mb-4">
+                                    Try asking about
+                                </p>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 md:gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {[
-                                        {
-                                            icon: <Navigation className="w-5 h-5 md:w-6 md:h-6" />,
-                                            text: 'Show me accessible buttons',
-                                            desc: 'Explore button variants with WCAG compliance',
-                                            color: 'bg-ocean',
-                                            border: 'border-ocean/40',
-                                            hover: 'hover:border-ocean'
-                                        },
-                                        {
-                                            icon: <Map className="w-5 h-5 md:w-6 md:h-6" />,
-                                            text: 'Card component implementation',
-                                            desc: 'Navigate through code examples',
-                                            color: 'bg-terrain',
-                                            border: 'border-terrain/40',
-                                            hover: 'hover:border-terrain'
-                                        },
-                                        {
-                                            icon: <Image className="w-5 h-5 md:w-6 md:h-6" />,
-                                            text: 'Analyze this design mockup',
-                                            desc: 'GPT-4 Vision component detection',
-                                            color: 'bg-compass',
-                                            border: 'border-compass/40',
-                                            hover: 'hover:border-compass'
-                                        },
-                                        {
-                                            icon: <Compass className="w-5 h-5 md:w-6 md:h-6" />,
-                                            text: 'Design tokens for spacing',
-                                            desc: 'Discover design system foundations',
-                                            color: 'bg-gold',
-                                            border: 'border-gold/40',
-                                            hover: 'hover:border-gold'
-                                        }
-                                    ].map((prompt, index) => (
+                                        { icon: <Navigation className="w-4 h-4" />, text: 'Show me accessible buttons', desc: 'WCAG compliant variants' },
+                                        { icon: <Map className="w-4 h-4" />, text: 'Card component implementation', desc: 'Code examples' },
+                                        { icon: <Image className="w-4 h-4" />, text: 'Analyze this design mockup', desc: 'Vision analysis' },
+                                        { icon: <Compass className="w-4 h-4" />, text: 'Design tokens for spacing', desc: 'System foundations' }
+                                    ].map((prompt) => (
                                         <button
                                             key={prompt.text}
                                             onClick={() => handleExampleQuery(prompt.text)}
-                                            className={cn(
-                                                "group relative p-3.5 md:p-6 bg-white/90 border-2 rounded text-left transition-all duration-300",
-                                                "shadow-md hover:shadow-xl transform hover:-translate-y-1 paper-shadow",
-                                                prompt.border, prompt.hover
-                                            )}
-                                            style={{ animationDelay: `${index * 100}ms` }}
+                                            className="group p-4 bg-white border border-ink/10 rounded-lg text-left hover:border-compass/40 hover:shadow-sm transition-all focus-ring"
                                         >
-                                            <div className="absolute top-2 right-2 md:top-3 md:right-3 opacity-20 group-hover:opacity-40 transition-opacity">
-                                                {prompt.icon}
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-8 h-8 rounded-lg bg-ink/5 flex items-center justify-center text-ink/50 group-hover:bg-compass/10 group-hover:text-compass transition-colors">
+                                                    {prompt.icon}
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="text-small font-medium text-ink group-hover:text-compass transition-colors truncate">
+                                                        {prompt.text}
+                                                    </div>
+                                                    <div className="text-caption text-muted">
+                                                        {prompt.desc}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className={cn("inline-flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded mb-2 md:mb-3 text-white", prompt.color)}>
-                                                {prompt.icon}
-                                            </div>
-                                            <div className="font-semibold text-ink mb-1 md:mb-2 text-sm md:text-base group-hover:text-compass transition-colors">
-                                                {prompt.text}
-                                            </div>
-                                            <div className="text-[10px] md:text-xs text-terrain/80 leading-relaxed">
-                                                {prompt.desc}
-                                            </div>
-                                            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-ink/10 to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                                         </button>
                                     ))}
                                 </div>
@@ -900,34 +819,26 @@ export function ChatInterface() {
                         <div
                             key={msg.id}
                             className={cn(
-                                "flex w-full animate-in fade-in slide-in-from-bottom-4 duration-500 relative",
+                                "flex w-full animate-in fade-in slide-in-from-bottom-2",
                                 msg.role === 'user' ? "justify-end" : "justify-start"
                             )}
                         >
-                            {index > 0 && <JourneyConnector />}
-
                             <div
                                 className={cn(
-                                    "max-w-[92%] md:max-w-[85%] rounded-lg px-4 py-4 md:px-7 md:py-6 relative",
+                                    "max-w-[90%] md:max-w-[80%] rounded-lg p-4 md:p-5",
                                     msg.role === 'user'
-                                        ? "bg-ocean text-white shadow-lg border-2 border-ink/30"
-                                        : "bg-white/95 border-2 border-ink/20 text-ink paper-shadow map-texture"
+                                        ? "bg-ocean text-white shadow-sm"
+                                        : "bg-white border border-ink/10 text-ink shadow-sm"
                                 )}
                             >
-                                {/* Decorative corner mark */}
-                                {msg.role === 'assistant' && (
-                                    <div className="absolute top-2 right-2 w-3 h-3 md:w-4 md:h-4 border-t-2 border-r-2 border-compass/40"></div>
-                                )}
-
                                 {/* Timestamp */}
                                 <div className={cn(
-                                    "text-[10px] font-mono mb-2 md:mb-3 tracking-wider uppercase",
-                                    msg.role === 'user' ? "text-white/60" : "text-terrain/60"
+                                    "text-caption font-mono mb-2 tracking-wider uppercase",
+                                    msg.role === 'user' ? "text-white/50" : "text-muted"
                                 )}>
-                                    {msg.role === 'user' ? 'USER' : 'COMPASS'} · {msg.timestamp.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-                                    {/* Streaming indicator */}
+                                    {msg.role === 'user' ? 'You' : 'Compass'} · {msg.timestamp.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                                     {msg.role === 'assistant' && isStreaming && index === displayMessages.length - 1 && (
-                                        <span className="ml-2 text-compass animate-pulse">streaming...</span>
+                                        <span className="ml-2 text-compass/70">●</span>
                                     )}
                                 </div>
 
@@ -956,7 +867,7 @@ export function ChatInterface() {
                                                 const isInline = !match && !codeString.includes('\n');
 
                                                 if (!isInline && match) {
-                                                    return <CodeBlock code={codeString} language={match[1]} onAction={handleSuggestionSelect} />;
+return <CodeBlock code={codeString} language={match[1]} />;
                                                 }
 
                                                 return (
@@ -1027,41 +938,22 @@ export function ChatInterface() {
 
                     {/* Loading State */}
                     {isLoading && (displayMessages.length === 0 || displayMessages[displayMessages.length - 1]?.role !== 'assistant') && (
-                        <div className="flex w-full justify-start animate-in fade-in slide-in-from-bottom-4 duration-500">
-                            <div className="max-w-[92%] md:max-w-[85%] bg-white/95 border-2 border-ink/20 rounded-lg px-4 py-4 md:px-7 md:py-6 paper-shadow map-texture relative">
-                                <div className="absolute top-2 right-2 w-3 h-3 md:w-4 md:h-4 border-t-2 border-r-2 border-compass/40"></div>
-
-                                <div className="text-[10px] font-mono mb-2 md:mb-3 tracking-wider uppercase text-terrain/60">
-                                    COMPASS · NAVIGATING...
+                        <div className="flex w-full justify-start animate-in fade-in slide-in-from-bottom-2">
+                            <div className="max-w-[90%] md:max-w-[80%] bg-white border border-ink/10 rounded-lg p-4 md:p-5 shadow-sm">
+                                <div className="text-caption font-mono mb-3 tracking-wider uppercase text-muted">
+                                    Compass
                                 </div>
 
-                                <div className="flex items-center gap-3 mb-3 md:mb-4">
-                                    <Compass className="w-5 h-5 md:w-6 md:h-6 text-compass compass-spin flex-shrink-0" />
-                                    <div className="flex flex-col">
-                                        <span className="text-sm text-ink font-semibold">Charting design system territories...</span>
-                                        <TypingIndicator />
-                                    </div>
+                                <div className="flex items-center gap-3 mb-4">
+                                    <Compass className="w-5 h-5 text-compass/60 compass-spin flex-shrink-0" />
+                                    <span className="text-small text-ink">Searching design system...</span>
                                 </div>
 
                                 {/* Skeleton content */}
-                                <div className="space-y-2.5 md:space-y-3">
-                                    <div className="h-3 md:h-4 bg-ink/10 rounded animate-pulse"></div>
-                                    <div className="h-3 md:h-4 bg-ink/10 rounded animate-pulse w-3/4" style={{ animationDelay: '100ms' }}></div>
-                                    <div className="h-16 md:h-20 bg-ink/5 rounded animate-pulse border border-ink/10 mt-3 md:mt-4" style={{ animationDelay: '200ms' }}></div>
-                                </div>
-
-                                {/* Progressive index search */}
-                                <div className="mt-3 md:mt-4 space-y-1.5 md:space-y-2">
-                                    {['Components', 'Code Examples', 'Accessibility', 'Design Tokens', 'Usage Analytics', 'Storybook', 'Changelog'].map((idx, i) => (
-                                        <div
-                                            key={idx}
-                                            className="flex items-center gap-2 text-[10px] text-terrain animate-in fade-in slide-in-from-left-2"
-                                            style={{ animationDelay: `${i * 150}ms` }}
-                                        >
-                                            <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-compass animate-pulse"></div>
-                                            <span>Searching {idx}...</span>
-                                        </div>
-                                    ))}
+                                <div className="space-y-2">
+                                    <div className="h-3 bg-ink/5 rounded-lg animate-pulse"></div>
+                                    <div className="h-3 bg-ink/5 rounded-lg animate-pulse w-3/4"></div>
+                                    <div className="h-3 bg-ink/5 rounded-lg animate-pulse w-1/2"></div>
                                 </div>
                             </div>
                         </div>
@@ -1071,26 +963,22 @@ export function ChatInterface() {
             </div>
 
             {/* Input Area */}
-            <div className="border-t-2 border-ink/20 bg-warm-white px-3 py-3 md:px-6 md:py-6 shadow-2xl map-texture relative safe-pb">
-                {/* Decorative corner elements (hidden on mobile) */}
-                <div className="hidden md:block absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-compass"></div>
-                <div className="hidden md:block absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-compass"></div>
-
+            <div className="border-t border-ink/10 bg-warm-white px-4 py-4 md:px-6 md:py-5 safe-pb">
                 <div className="max-w-4xl mx-auto">
                     {/* File Attachment Preview */}
                     {attachedFile && (
-                        <div className="mb-2 md:mb-3 p-3 md:p-4 bg-gold/10 border-2 border-gold/40 rounded flex items-center justify-between shadow-sm animate-in slide-in-from-bottom-2">
-                            <div className="flex items-center gap-2 md:gap-3 min-w-0">
+                        <div className="mb-3 p-3 bg-gold/5 border border-gold/30 rounded-lg flex items-center justify-between animate-in slide-in-from-bottom-2">
+                            <div className="flex items-center gap-2 min-w-0">
                                 {attachedFile.type.startsWith('image/') ? (
-                                    <Image className="w-4 h-4 md:w-5 md:h-5 text-compass flex-shrink-0" />
+                                    <Image className="w-4 h-4 text-gold flex-shrink-0" />
                                 ) : (
-                                    <Paperclip className="w-4 h-4 md:w-5 md:h-5 text-compass flex-shrink-0" />
+                                    <Paperclip className="w-4 h-4 text-gold flex-shrink-0" />
                                 )}
-                                <span className="text-sm text-ink font-semibold truncate">{attachedFile.name}</span>
+                                <span className="text-small text-ink truncate">{attachedFile.name}</span>
                             </div>
                             <button
                                 onClick={handleRemoveFile}
-                                className="text-compass hover:text-compass-dark text-sm font-bold transition-colors flex-shrink-0 ml-2"
+                                className="p-1 text-ink/40 hover:text-ink transition-colors flex-shrink-0 ml-2 focus-ring rounded"
                                 aria-label="Remove attached file"
                             >
                                 <X className="w-4 h-4" />
@@ -1099,7 +987,7 @@ export function ChatInterface() {
                     )}
 
                     {/* Input Box */}
-                    <div className="relative flex items-end gap-2 md:gap-3 p-2 md:p-3 bg-white border-2 border-ink/30 rounded focus-within:ring-2 focus-within:ring-compass/30 focus-within:border-compass transition-all shadow-md">
+                    <div className="flex items-end gap-2 p-2 bg-white border border-ink/15 rounded-lg focus-within:border-compass/50 focus-within:shadow-sm transition-all">
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -1112,11 +1000,11 @@ export function ChatInterface() {
 
                         <button
                             onClick={() => fileInputRef.current?.click()}
-                            className="p-2 md:p-3 text-terrain hover:text-compass hover:bg-compass/10 rounded transition-all flex-shrink-0"
-                            title="Upload Screenshot (GPT-4 Vision)"
+                            className="p-2.5 text-ink/40 hover:text-compass hover:bg-compass/5 rounded-lg transition-colors flex-shrink-0 focus-ring"
+                            title="Upload image"
                             aria-label="Upload screenshot for AI analysis"
                         >
-                            <Image className="w-5 h-5 md:w-6 md:h-6" />
+                            <Image className="w-5 h-5" />
                         </button>
 
                         <textarea
@@ -1128,8 +1016,8 @@ export function ChatInterface() {
                                     handleSend();
                                 }
                             }}
-                            placeholder="Describe your destination..."
-                            className="flex-1 bg-transparent border-none focus:ring-0 resize-none max-h-40 py-3 md:py-4 text-sm md:text-base text-ink placeholder-terrain/50 font-medium"
+                            placeholder="Ask about components, accessibility, tokens..."
+                            className="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none resize-none max-h-32 py-2.5 text-body text-ink placeholder-muted"
                             rows={1}
                             style={{ minHeight: '44px' }}
                         />
@@ -1138,26 +1026,22 @@ export function ChatInterface() {
                             onClick={handleSend}
                             disabled={(!input.trim() && !attachedFile) || isLoading}
                             className={cn(
-                                "p-2.5 md:p-4 rounded transition-all duration-300 shadow-lg border-2 flex-shrink-0",
+                                "p-2.5 rounded-lg transition-all flex-shrink-0 focus-ring",
                                 (input.trim() || attachedFile) && !isLoading
-                                    ? "bg-compass text-white hover:bg-compass-dark border-compass-dark shadow-compass/30 hover:shadow-compass/50 hover:scale-105 wax-seal"
-                                    : "bg-ink/10 text-terrain/50 cursor-not-allowed shadow-none border-ink/20"
+                                    ? "bg-compass text-white hover:bg-compass-dark shadow-sm"
+                                    : "bg-ink/5 text-ink/30 cursor-not-allowed"
                             )}
                         >
-                            <Send className="w-5 h-5 md:w-6 md:h-6" />
+                            <Send className="w-5 h-5" />
                         </button>
                     </div>
 
-                    <div className="mt-2 md:mt-3 text-center text-[10px] md:text-xs text-terrain/60 flex items-center justify-center gap-2 md:gap-3 flex-wrap px-2 md:px-4">
-                        <span className="font-semibold">Powered by Algolia</span>
-                        <span className="hidden sm:inline text-ink/30">·</span>
-                        <span className="hidden sm:inline"><kbd className="px-1.5 md:px-2 py-0.5 bg-ink/10 rounded text-[9px] md:text-[10px] font-mono">Enter</kbd> send</span>
-                        <span className="hidden md:inline text-ink/30">·</span>
-                        <span className="hidden md:inline"><kbd className="px-2 py-0.5 bg-ink/10 rounded text-[10px] font-mono">Shift+Enter</kbd> new line</span>
-                        <span className="hidden lg:inline text-ink/30">·</span>
-                        <span className="hidden lg:inline"><kbd className="px-2 py-0.5 bg-ink/10 rounded text-[10px] font-mono">Cmd+K</kbd> new</span>
-                        <span className="hidden lg:inline text-ink/30">·</span>
-                        <span className="hidden lg:inline"><kbd className="px-2 py-0.5 bg-ink/10 rounded text-[10px] font-mono">Cmd+E</kbd> export</span>
+                    <div className="mt-3 text-center text-caption text-muted flex items-center justify-center gap-3">
+                        <span>Powered by Algolia</span>
+                        <span className="hidden sm:inline text-ink/20">·</span>
+                        <span className="hidden sm:inline">⏎ send</span>
+                        <span className="hidden md:inline text-ink/20">·</span>
+                        <span className="hidden md:inline">⇧⏎ new line</span>
                     </div>
                 </div>
             </div>

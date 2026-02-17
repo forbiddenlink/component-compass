@@ -27,7 +27,6 @@ export function ComponentCard({ componentName, onAction }: ComponentCardProps) {
   if (!data) return null;
 
   const variants = data.variants.split(',').map(v => v.trim()).filter(Boolean);
-  const props = data.props.split(',').map(p => p.trim()).filter(Boolean);
 
   const handleAction = (action: string) => {
     trackComponentCardClick(data.name);
@@ -41,75 +40,53 @@ export function ComponentCard({ componentName, onAction }: ComponentCardProps) {
   };
 
   const statusColor = data.status === 'stable'
-    ? 'bg-terrain/20 text-terrain border-terrain/30'
+    ? 'bg-terrain/10 text-terrain'
     : data.status === 'beta'
-    ? 'bg-gold/20 text-gold border-gold/30'
-    : 'bg-compass/20 text-compass border-compass/30';
+    ? 'bg-gold/10 text-gold'
+    : 'bg-compass/10 text-compass';
 
   return (
-    <div className="my-3 border-2 border-ink/15 bg-warm-white rounded-lg overflow-hidden shadow-paper">
+    <div className="my-3 border border-ink/10 bg-white rounded-lg overflow-hidden shadow-sm">
       {/* Header */}
-      <div className="px-4 py-3 bg-parchment/50 border-b border-ink/10 flex items-center justify-between">
+      <div className="px-4 py-3 border-b border-ink/8 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="font-display font-semibold text-ink text-sm">{data.name}</span>
-          <span className={cn('text-[10px] px-1.5 py-0.5 rounded-full border font-semibold uppercase tracking-wider', statusColor)}>
+          <span className="font-display font-semibold text-ink text-small">{data.name}</span>
+          <span className={cn('text-caption px-1.5 py-0.5 rounded font-semibold', statusColor)}>
             {data.status}
           </span>
         </div>
-        <span className="text-[10px] text-ink/40 font-mono uppercase tracking-widest">{data.category}</span>
+        <span className="text-caption text-muted font-mono uppercase tracking-wider">{data.category}</span>
       </div>
 
       {/* Body */}
       <div className="px-4 py-3 space-y-2">
-        <p className="text-xs text-ink/70 leading-relaxed">{data.description}</p>
+        <p className="text-small text-ink/70 leading-relaxed">{data.description}</p>
 
         {/* Variants */}
         {variants.length > 0 && (
           <div className="flex flex-wrap gap-1">
             {variants.map(v => (
-              <span key={v} className="text-[10px] px-1.5 py-0.5 bg-ocean/10 text-ocean rounded border border-ocean/20 font-mono">
+              <span key={v} className="text-caption px-1.5 py-0.5 bg-ink/5 text-ink/60 rounded font-mono">
                 {v}
               </span>
             ))}
           </div>
         )}
-
-        {/* Props */}
-        {props.length > 0 && (
-          <div className="text-[10px] text-ink/50">
-            <span className="font-semibold">Props:</span>{' '}
-            <span className="font-mono">{props.join(', ')}</span>
-          </div>
-        )}
       </div>
 
-      {/* Actions */}
-      <div className="px-4 py-2 bg-parchment/30 border-t border-ink/10 flex gap-1.5 flex-wrap">
+      {/* Actions - simplified to 2 buttons */}
+      <div className="px-4 py-2.5 border-t border-ink/8 flex gap-2">
         <button
           type="button"
           onClick={() => handleAction('docs')}
-          className="text-[10px] px-2 py-1 bg-ocean text-white rounded hover:bg-ink transition-all font-semibold"
+          className="text-caption px-3 py-1.5 bg-compass text-white rounded hover:bg-compass-dark transition-colors font-semibold focus-ring"
         >
           View Docs
         </button>
         <button
           type="button"
-          onClick={() => handleAction('a11y')}
-          className="text-[10px] px-2 py-1 bg-terrain text-white rounded hover:bg-ink transition-all font-semibold"
-        >
-          Check A11y
-        </button>
-        <button
-          type="button"
-          onClick={() => handleAction('variants')}
-          className="text-[10px] px-2 py-1 bg-gold text-ink rounded hover:bg-compass hover:text-white transition-all font-semibold"
-        >
-          Variants
-        </button>
-        <button
-          type="button"
           onClick={() => handleAction('examples')}
-          className="text-[10px] px-2 py-1 bg-compass text-white rounded hover:bg-compass-dark transition-all font-semibold"
+          className="text-caption px-3 py-1.5 border border-ink/15 text-ink rounded hover:bg-ink/5 transition-colors font-semibold focus-ring"
         >
           Examples
         </button>

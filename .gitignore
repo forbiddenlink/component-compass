@@ -53,3 +53,7 @@ coverage/
 
 # Archives
 *.tar.gz
+.vercel
+
+# Specter knowledge graph cache
+.specter/
