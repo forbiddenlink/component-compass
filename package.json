@@ -48,5 +48,7 @@
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",
     "vitest": "^4.0.18"
-  }
+  },
+  "description": "AI-powered design system navigator for discovering UI components through natural conversation",
+  "license": "MIT"
 }
