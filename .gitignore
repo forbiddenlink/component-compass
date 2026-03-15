@@ -4,13 +4,11 @@ node_modules
 # Build output
 dist
 dist-ssr
-
 # Environment variables
 .env
 .env.local
 .env.*.local
 *.local
-
 # Logs
 logs
 *.log
@@ -19,7 +17,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -29,31 +26,27 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
 # Local history
 .history/
-
 # OS files
 .DS_Store
 Thumbs.db
-
 # Test coverage
 coverage/
-
 # TypeScript
 *.tsbuildinfo
-
 # Code quality tools
 .codacy/
-
 # Claude Code internals
 .claude/cache/
 .claude/settings.local.json
 .claude/tsc-cache/
-
 # Archives
 *.tar.gz
 .vercel
-
 # Specter knowledge graph cache
 .specter/
+.next/
+dist/
+build/
+out/
